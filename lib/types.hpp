@@ -6,3 +6,5 @@
 #define YELLOW 1
 #define GREEN 2
 #define RED 3
+
+#define FIELD_SIZE 40
