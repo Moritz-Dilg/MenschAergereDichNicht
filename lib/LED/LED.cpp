@@ -35,7 +35,7 @@ void LED::begin() {
 /**
  * @brief Set the base LEDs
  *
- * @param n Number of pins in the base
+ * @param n Number of figures in the base
  * @param color Color to set, use the defines BLUE, YELLOW, GREEN, RED
  */
 void LED::setBase(u_int8_t n, u_int8_t color) {
@@ -44,7 +44,7 @@ void LED::setBase(u_int8_t n, u_int8_t color) {
                          9, 8, 10, 11,
                          13, 14, 12, 15};
 
-    if (!verifyNPins(n)) return;
+    if (!verifyNFigures(n)) return;
     clearSection(color, baseStrip);
 
     for (u_int8_t i = color * 4; i < color * 4 + n; i++) {
@@ -75,11 +75,11 @@ void LED::setBase(u_int8_t n, u_int8_t color) {
 /**
  * @brief Set the goal LEDs
  *
- * @param n Number of pins in the goal
+ * @param n Number of figures in the goal
  * @param color Color to set, use the defines BLUE, YELLOW, GREEN, RED
  */
 void LED::setGoal(u_int8_t n, u_int8_t color) {
-    if (!verifyNPins(n)) return;
+    if (!verifyNFigures(n)) return;
     clearSection(color, goalStrip);
 
     for (u_int8_t i = color * 4; i < color * 4 + n; i++) {
@@ -108,13 +108,13 @@ void LED::setGoal(u_int8_t n, u_int8_t color) {
 }
 
 /**
- * @brief Move pin from Index `i` (starting at 0) `n` pins forward
+ * @brief Move figure from Index `i` (starting at 0) `n` figures forward
  *
  * @param i Index of the LED to move
- * @param n Number of pins to move forward
+ * @param n Number of figures to move forward
  * @param color Color to set, use the defines BLUE, YELLOW, GREEN, RED
  */
-void movePin(u_int8_t i, u_int8_t n, u_int8_t color) {
+void moveFigure(u_int8_t i, u_int8_t n, u_int8_t color) {
     fieldStrip.setPixelColor(i, fieldStrip.Color(0, 0, 0));
     switch (color) {
         case BLUE:

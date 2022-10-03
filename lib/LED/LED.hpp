@@ -14,10 +14,10 @@ class LED {
     void begin();
     void setBase(u_int8_t n, u_int8_t color);
     void setGoal(u_int8_t n, u_int8_t color);
-    void movePin(u_int8_t i, u_int8_t n, u_int8_t color);
+    void moveFigure(u_int8_t i, u_int8_t n, u_int8_t color);
 
    private:
-    bool verifyNPins(u_int8_t n) {
+    bool verifyNFigures(u_int8_t n) {
         return n >= 0 && n <= 4;
     }
     void clearSection(u_int8_t index, Adafruit_NeoPixel &strip) {
