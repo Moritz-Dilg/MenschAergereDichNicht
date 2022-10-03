@@ -44,8 +44,8 @@ void LED::setBase(u_int8_t n, u_int8_t color) {
                          9, 8, 10, 11,
                          13, 14, 12, 15};
 
-    if (!verifyBase(n)) return;
-    clearBaseSection(color, baseStrip);
+    if (!verifyNPins(n)) return;
+    clearSection(color, baseStrip);
 
     for (u_int8_t i = color * 4; i < color * 4 + n; i++) {
         switch (color) {
@@ -70,6 +70,41 @@ void LED::setBase(u_int8_t n, u_int8_t color) {
         }
     }
     baseStrip.show();
+}
+
+/**
+ * @brief Set the goal LEDs
+ *
+ * @param n Number of pins in the goal
+ * @param color Color to set, use the defines BLUE, YELLOW, GREEN, RED
+ */
+void LED::setGoal(u_int8_t n, u_int8_t color) {
+    if (!verifyNPins(n)) return;
+    clearSection(color, goalStrip);
+
+    for (u_int8_t i = color * 4; i < color * 4 + n; i++) {
+        switch (color) {
+            case BLUE:
+                goalStrip.setPixelColor(3 - i, goalStrip.Color(0, 0, 255));
+                break;
+
+            case YELLOW:
+                goalStrip.setPixelColor(i, goalStrip.Color(255, 255, 0));
+                break;
+
+            case GREEN:
+                goalStrip.setPixelColor(i, goalStrip.Color(0, 255, 0));
+                break;
+
+            case RED:
+                goalStrip.setPixelColor(i, goalStrip.Color(255, 0, 0));
+                break;
+
+            default:
+                break;
+        }
+    }
+    goalStrip.show();
 }
 
 // Deallocate LED object

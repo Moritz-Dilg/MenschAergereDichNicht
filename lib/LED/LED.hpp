@@ -19,12 +19,13 @@ class LED {
 
     void begin();
     void setBase(u_int8_t n, u_int8_t color);
+    void setGoal(u_int8_t n, u_int8_t color);
 
    private:
-    bool verifyBase(u_int8_t n) {
+    bool verifyNPins(u_int8_t n) {
         return n >= 0 && n <= 4;
     }
-    void clearBaseSection(u_int8_t index, Adafruit_NeoPixel &strip) {
+    void clearSection(u_int8_t index, Adafruit_NeoPixel &strip) {
         for (u_int8_t i = index * 4; i < index * 4 + 4; i++) {
             strip.setPixelColor(i, strip.Color(0, 0, 0));
         }
