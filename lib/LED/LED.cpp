@@ -19,7 +19,10 @@ Adafruit_NeoPixel baseStrip = Adafruit_NeoPixel(N_PIXELS_BASE, LED_PIN_BASE, NEO
  */
 LED::LED(uint8_t brightness) {
     this->brightness = brightness;
+}
 
+// Initialize LED
+void LED::begin() {
     fieldStrip.begin();
     fieldStrip.setBrightness(this->brightness);
     fieldStrip.show();  // Initialize all pixels to 'off'
