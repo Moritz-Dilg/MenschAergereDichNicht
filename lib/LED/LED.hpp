@@ -11,7 +11,6 @@ class LED {
     LED(u_int8_t brightness);
     ~LED();
 
-    void begin();
     void setBase(u_int8_t n, u_int8_t color);
     void setGoal(u_int8_t n, u_int8_t color);
     void moveFigure(u_int8_t i, u_int8_t n, u_int8_t color);

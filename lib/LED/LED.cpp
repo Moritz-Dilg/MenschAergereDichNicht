@@ -1,10 +1,5 @@
 #include <LED.hpp>
 
-// Configure brightness of the LEDs
-LED::LED(uint8_t brightness) {
-    this->brightness = brightness;
-}
-
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
 // Parameter 3 = pixel type flags, add together as needed:
@@ -17,8 +12,14 @@ Adafruit_NeoPixel fieldStrip = Adafruit_NeoPixel(N_PIXELS_FIELD, LED_PIN_FIELD, 
 Adafruit_NeoPixel goalStrip = Adafruit_NeoPixel(N_PIXELS_GOAL, LED_PIN_GOAL, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel baseStrip = Adafruit_NeoPixel(N_PIXELS_BASE, LED_PIN_BASE, NEO_GRB + NEO_KHZ800);
 
-// Initialize LED library.
-void LED::begin() {
+/**
+ * @brief Construct a new LED::LED object
+ *
+ * @param brightness Brightness of the LEDs: 1 - 255
+ */
+LED::LED(uint8_t brightness) {
+    this->brightness = brightness;
+
     fieldStrip.begin();
     fieldStrip.setBrightness(this->brightness);
     fieldStrip.show();  // Initialize all pixels to 'off'

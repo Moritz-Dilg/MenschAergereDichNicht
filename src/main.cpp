@@ -11,7 +11,6 @@ u_int8_t n = 0;
 
 void setup() {
     Serial.begin(9600);
-    led.begin();
     pinMode(32, INPUT);
 }
 
