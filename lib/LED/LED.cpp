@@ -79,35 +79,37 @@ void LED::setBase(u_int8_t n, u_int8_t color) {
 /**
  * @brief Set the goal LEDs
  *
- * @param n Number of figures in the goal
+ * @param n Position of figure in goal
  * @param color Color to set, use the defines BLUE, YELLOW, GREEN, RED
+ * @param from If figure moved in goal -> previous position (leave blank if figure just arrived in goal)
  */
-void LED::setGoal(u_int8_t n, u_int8_t color) {
+void LED::setGoal(u_int8_t n, u_int8_t color, int8_t from) {
     if (!verifyNFigures(n)) return;
     clearSection(color, goalStrip);
 
-    for (u_int8_t i = color * 4; i < color * 4 + n; i++) {
-        switch (color) {
-            case BLUE:
-                goalStrip.setPixelColor(3 - i, goalStrip.Color(0, 0, 255));
-                break;
+    if (from != -1) goalStrip.setPixelColor(color * 4 + from, goalStrip.Color(0, 0, 0));
 
-            case YELLOW:
-                goalStrip.setPixelColor(i, goalStrip.Color(255, 255, 0));
-                break;
+    switch (color) {
+        case BLUE:
+            goalStrip.setPixelColor(color * 4 + n, goalStrip.Color(0, 0, 255));
+            break;
 
-            case GREEN:
-                goalStrip.setPixelColor(i, goalStrip.Color(0, 255, 0));
-                break;
+        case YELLOW:
+            goalStrip.setPixelColor(color * 4 + (3 - n), goalStrip.Color(255, 255, 0));
+            break;
 
-            case RED:
-                goalStrip.setPixelColor(i, goalStrip.Color(255, 0, 0));
-                break;
+        case GREEN:
+            goalStrip.setPixelColor(color * 4 + (3 - n), goalStrip.Color(0, 255, 0));
+            break;
 
-            default:
-                break;
-        }
+        case RED:
+            goalStrip.setPixelColor(color * 4 + (3 - n), goalStrip.Color(255, 0, 0));
+            break;
+
+        default:
+            break;
     }
+
     goalStrip.show();
 }
 
