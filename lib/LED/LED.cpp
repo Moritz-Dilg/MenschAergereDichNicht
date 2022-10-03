@@ -114,13 +114,52 @@ void LED::setGoal(u_int8_t n, u_int8_t color, int8_t from) {
 }
 
 /**
- * @brief Move figure from Index `i` (starting at 0) `n` figures forward
+ * @brief Set first LED of the field outside of the base
  *
- * @param i Index of the LED to move
- * @param n Number of figures to move forward
  * @param color Color to set, use the defines BLUE, YELLOW, GREEN, RED
  */
-void moveFigure(u_int8_t i, u_int8_t n, u_int8_t color) {
+void LED::setFigureToStart(u_int8_t color) {
+    switch (color) {
+        case BLUE:
+            fieldStrip.setPixelColor(0, fieldStrip.Color(0, 0, 255));
+            break;
+
+        case YELLOW:
+            fieldStrip.setPixelColor(10, fieldStrip.Color(255, 255, 0));
+            break;
+
+        case GREEN:
+            fieldStrip.setPixelColor(20, fieldStrip.Color(0, 255, 0));
+            break;
+
+        case RED:
+            fieldStrip.setPixelColor(30, fieldStrip.Color(255, 0, 0));
+            break;
+
+        default:
+            break;
+    }
+    fieldStrip.show();
+}
+
+/**
+ * @brief Remove figure at given position from field
+ *
+ * @param position Position of figure to remove
+ */
+void LED::removeFigureFromField(u_int8_t position) {
+    fieldStrip.setPixelColor(position, fieldStrip.Color(0, 0, 0));
+    fieldStrip.show();
+}
+
+/**
+ * @brief Move figure from Index i (starting at 0) n figures forward
+ *
+ * @param i Index of the LED to move
+ * @param n Number of fields to move forward
+ * @param color Color to set, use the defines BLUE, YELLOW, GREEN, RED
+ */
+void LED::moveFigure(u_int8_t i, u_int8_t n, u_int8_t color) {
     fieldStrip.setPixelColor(i, fieldStrip.Color(0, 0, 0));
     switch (color) {
         case BLUE:

@@ -14,6 +14,8 @@ class LED {
     void begin();
     void setBase(u_int8_t n, u_int8_t color);
     void setGoal(u_int8_t n, u_int8_t color, int8_t from = -1);
+    void setFigureToStart(u_int8_t color);
+    void removeFigureFromField(u_int8_t position);
     void moveFigure(u_int8_t i, u_int8_t n, u_int8_t color);
 
    private:
