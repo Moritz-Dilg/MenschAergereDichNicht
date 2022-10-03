@@ -107,6 +107,38 @@ void LED::setGoal(u_int8_t n, u_int8_t color) {
     goalStrip.show();
 }
 
+/**
+ * @brief Move pin from Index `i` (starting at 0) `n` pins forward
+ *
+ * @param i Index of the LED to move
+ * @param n Number of pins to move forward
+ * @param color Color to set, use the defines BLUE, YELLOW, GREEN, RED
+ */
+void movePin(u_int8_t i, u_int8_t n, u_int8_t color) {
+    fieldStrip.setPixelColor(i, fieldStrip.Color(0, 0, 0));
+    switch (color) {
+        case BLUE:
+            fieldStrip.setPixelColor(i + n, fieldStrip.Color(0, 0, 255));
+            break;
+
+        case YELLOW:
+            fieldStrip.setPixelColor(i + n, fieldStrip.Color(255, 255, 0));
+            break;
+
+        case GREEN:
+            fieldStrip.setPixelColor(i + n, fieldStrip.Color(0, 255, 0));
+            break;
+
+        case RED:
+            fieldStrip.setPixelColor(i + n, fieldStrip.Color(255, 0, 0));
+            break;
+
+        default:
+            break;
+    }
+    fieldStrip.show();
+}
+
 // Deallocate LED object
 LED::~LED() {
     fieldStrip.~Adafruit_NeoPixel();

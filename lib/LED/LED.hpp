@@ -20,6 +20,7 @@ class LED {
     void begin();
     void setBase(u_int8_t n, u_int8_t color);
     void setGoal(u_int8_t n, u_int8_t color);
+    void movePin(u_int8_t i, u_int8_t n, u_int8_t color);
 
    private:
     bool verifyNPins(u_int8_t n) {
