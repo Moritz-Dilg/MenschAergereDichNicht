@@ -1,16 +1,10 @@
-#define N_PIXELS_FIELD 56
-#define N_PIXELS_GOAL 16
-#define N_PIXELS_BASE 26  // 16
 #define LED_PIN_FIELD 33
 #define LED_PIN_GOAL 31
 #define LED_PIN_BASE 26  // 30
 
-#define BLUE 0
-#define YELLOW 1
-#define GREEN 2
-#define RED 3
-
 #include <Adafruit_NeoPixel.h>
+
+#include "../types.hpp"
 
 class LED {
    public:
