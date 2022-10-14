@@ -8,3 +8,5 @@
 #define RED 3
 
 #define FIELD_SIZE 40
+// TODO: Adjust brightness according to visibility throug plexiglass
+#define LED_BRIGHTNESS 50  // Brightness of the LEDs: 1 - 255

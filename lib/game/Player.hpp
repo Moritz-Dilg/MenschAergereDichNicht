@@ -13,14 +13,10 @@ class Player {
 	~Player();
 
 	/**
-	 * @brief Moves the figure by the given offset, handles defeating other
-	 * figures and entering the goal
-	 *
-	 * @param figure The position of the figure to move
-	 * @param offset The offset to move the figure by
-	 * @return false if the figure is not in the game.
+	 * @brief Called for every turn. Handles figure selection, rolling dice and
+	 * movement.
 	 */
-	bool move(short figure, short offset);
+	void turn();
 
 	/**
 	 * @brief Checks whether a given goal position is empty
@@ -66,4 +62,21 @@ class Player {
 	bool occupied_goal_positions[4];
 	short selected_figure;
 	short color;
+
+	/**
+	 * @brief Moves the figure by the given offset, handles defeating other
+	 * figures and entering the goal
+	 *
+	 * @param figure The position of the figure to move
+	 * @param offset The offset to move the figure by
+	 * @return false if the figure is not in the game.
+	 */
+	bool move(short figure, short offset);
+
+	/**
+	 * @brief Simulates a dice roll. (MAYBE shows animation on display)
+	 *
+	 * @return The result of the dice roll
+	 */
+	u_int8_t roll_dice();
 };
