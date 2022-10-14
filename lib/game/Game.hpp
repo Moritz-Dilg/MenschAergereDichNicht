@@ -18,7 +18,7 @@ class Game {
 
    private:
 	Player* players[4];
-	LED led;
+	LED* led;
 	short currentPlayer;
 
 	/**

@@ -9,7 +9,7 @@ class Player {
 	 * @param color The color of the player
 	 * @param led The LED instance
 	 */
-	Player(short color, LED& led);
+	Player(short color, LED* led);
 	~Player();
 
 	/**
@@ -61,7 +61,7 @@ class Player {
 
    private:
 	Figure* figures[4];
-	LED& led;
+	LED* led;
 	short figures_in_base;
 	bool occupied_goal_positions[4];
 	short selected_figure;
