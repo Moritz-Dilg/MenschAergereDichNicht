@@ -79,7 +79,7 @@ void LED::setBase(u_int8_t n, u_int8_t color) {
 /**
  * @brief Set the goal LEDs
  *
- * @param n Position of figure in goal
+ * @param n Position of figure in goal sarting at 0
  * @param color Color to set, use the defines BLUE, YELLOW, GREEN, RED
  * @param from If figure moved in goal -> previous position (leave blank if figure just arrived in goal)
  */
@@ -145,7 +145,7 @@ void LED::setFigureToStart(u_int8_t color) {
 /**
  * @brief Remove figure at given position from field
  *
- * @param position Position of figure to remove
+ * @param position Position of figure to remove starting at 0
  */
 void LED::removeFigureFromField(u_int8_t position) {
     fieldStrip.setPixelColor(position, fieldStrip.Color(0, 0, 0));
@@ -155,7 +155,7 @@ void LED::removeFigureFromField(u_int8_t position) {
 /**
  * @brief Move figure from Index i (starting at 0) n figures forward
  *
- * @param i Index of the LED to move
+ * @param i Index of the LED to move starting at 0
  * @param n Number of fields to move forward
  * @param color Color to set, use the defines BLUE, YELLOW, GREEN, RED
  */
