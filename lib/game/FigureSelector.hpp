@@ -12,7 +12,7 @@ class FigureSelector {
 	 * @param led The LED instance
 	 * @param positions The positions of the figures
 	 *
-	 * @returns The current position of the selected figure
+	 * @returns The index of the selected figure
 	 */
 	static short select(LED* led, short positions[4]);
 };
