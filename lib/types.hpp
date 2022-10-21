@@ -7,6 +7,6 @@
 #define GREEN 2
 #define RED 3
 
-#define FIELD_SIZE 40
 // TODO: Adjust brightness according to visibility throug plexiglass
-#define LED_BRIGHTNESS 50  // Brightness of the LEDs: 1 - 255
+#define LED_BRIGHTNESS 50			   // Brightness of the LEDs: 1 - 255
+#define FIGURE_SELECT_TOGGLE_TIME 500  // Time in ms to toggle the selected LED
