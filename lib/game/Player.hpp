@@ -55,6 +55,13 @@ class Player {
 	 */
 	bool toBaseIfHit(short position);
 
+	/**
+	 * @brief Returns an array of the figure positions of this player
+	 *
+	 * @return An array of the figure positions of this player
+	 */
+	short* getPositions();
+
    private:
 	Figure* figures[4];
 	LED* led;

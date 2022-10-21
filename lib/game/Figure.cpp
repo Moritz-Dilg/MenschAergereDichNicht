@@ -64,10 +64,6 @@ bool Figure::toBaseIfHit(short position, short& players_in_base) {
 	return false;
 }
 
-void Figure::select() {}
-
-void Figure::deselect() {}
-
 Figure* Figure::getFigureIfAtPosition(short position) {
 	if (this->position == position) {
 		return this;
@@ -75,3 +71,5 @@ Figure* Figure::getFigureIfAtPosition(short position) {
 
 	return NULL;
 }
+
+short Figure::getPosition() { return this->position; }

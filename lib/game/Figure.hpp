@@ -32,17 +32,6 @@ class Figure {
 	bool toBaseIfHit(short position, short& players_in_base);
 
 	/**
-	 * @brief Selects the figure to continuously toggle the corresponding LED
-	 */
-	void select();
-
-	/**
-	 * @brief Deselects the figure to stop continuously toggling the
-	 * corresponding LED
-	 */
-	void deselect();
-
-	/**
 	 * @brief Returns the figure if it is at the given position or NULL
 	 * otherwise
 	 *
@@ -50,6 +39,14 @@ class Figure {
 	 * @return The figure if it is at the given position or NULL
 	 */
 	Figure* getFigureIfAtPosition(short position);
+
+	/**
+	 * @brief Returns the position of the figure
+	 *
+	 * @return The position of the figure. -1 through -4 if the figure is in the
+	 * goal. 0 if the figure is in the base.
+	 */
+	short getPosition();
 
    private:
 	short position;
