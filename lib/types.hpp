@@ -10,3 +10,9 @@
 // TODO: Adjust brightness according to visibility throug plexiglass
 #define LED_BRIGHTNESS 50			   // Brightness of the LEDs: 1 - 255
 #define FIGURE_SELECT_TOGGLE_TIME 500  // Time in ms to toggle the selected LED
+
+// TODO: Set correct pins
+// Button Pins
+#define PIN_BTN_1 0
+#define PIN_BTN_2 1
+#define PIN_BTN_3 2
