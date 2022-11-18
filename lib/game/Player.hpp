@@ -1,5 +1,10 @@
+#define __PLAYER__
 #include "Figure.hpp"
+#include "FigureSelector.hpp"
 #include "LED.hpp"
+#ifndef __GAME__
+#include "Game.hpp"
+#endif
 
 class Player {
    public:
@@ -9,7 +14,7 @@ class Player {
 	 * @param color The color of the player
 	 * @param led The LED instance
 	 */
-	Player(short color, LED* led);
+	Player(short color, Game* game, LED* led);
 	~Player();
 
 	/**
@@ -62,9 +67,28 @@ class Player {
 	 */
 	short* getPositions();
 
+	/**
+	 * @brief Returns the figure if it is at the given position or nullptr
+	 * otherwise
+	 *
+	 * @param position The position to check for
+	 * @return The figure if it is at the given position or nullptr
+	 */
+	Figure* getFigureIfAtPosition(const short position);
+
+	/**
+	 * @brief Checks whether there is an opposing figure at the specified
+	 * position.
+	 *
+	 * @param position The position to check
+	 * @return The figure if there is one
+	 */
+	Figure* getOpposingFigure(const short position);
+
    private:
 	Figure* figures[4];
 	LED* led;
+	Game* game;
 	short figures_in_base;
 	bool occupied_goal_positions[4];
 	short selected_figure;

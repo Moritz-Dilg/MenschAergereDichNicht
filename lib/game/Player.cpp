@@ -1,14 +1,13 @@
 #include "Player.hpp"
 
-#include "FigureSelector.hpp"
-
-Player::Player(short color, LED* led) {
+Player::Player(short color, Game* game, LED* led) {
 	this->color = color;
 	this->led = led;
 	this->figures_in_base = 4;
 	this->selected_figure = -1;
+	this->game = game;
 	for (u_int8_t i = 0; i < 4; i++) {
-		this->figures[i] = new Figure(color, led);
+		this->figures[i] = new Figure(color, this, led);
 		this->occupied_goal_positions[i] = false;
 	}
 
@@ -34,7 +33,7 @@ void Player::turn() {
 }
 
 bool Player::move(short figure, short offset) {
-	if (this->figures[figure]->getFigureIfAtPosition(0) == NULL) {
+	if (this->figures[figure]->getPosition() != 0) {
 		this->figures[figure]->move(offset);
 		return true;
 	}
@@ -83,4 +82,17 @@ u_int8_t Player::roll_dice() {
 	// TODO: maybe show animation on display
 	// TODO: implement rolling multiple dices if a 6 is rolled.
 	return rand() % 6 + 1;
+}
+
+Figure* Player::getFigureIfAtPosition(const short position) {
+	for (int i = 0; i < 4; i++) {
+		if (this->figures[i]->getPosition() == position) {
+			return this->figures[i];
+		}
+	}
+	return nullptr;
+}
+
+Figure* Player::getOpposingFigure(const short position) {
+	return game->getFigureIfAtPosition(position);
 }

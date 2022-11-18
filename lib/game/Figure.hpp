@@ -1,9 +1,12 @@
 #include "../types.hpp"
 #include "LED.hpp"
+#ifndef __PLAYER__
+#include "Player.hpp"
+#endif
 
 class Figure {
    public:
-	Figure(short color, LED* led);
+	Figure(short color, Player* player, LED* led);
 
 	/**
 	 * @brief Moves the figure to the start position
@@ -48,8 +51,14 @@ class Figure {
 	 */
 	short getPosition();
 
+	/**
+	 * @return The number of figures currently in the base.
+	 */
+	short getInBase();
+
    private:
 	short position;
 	short color;
+	Player* player;
 	LED* led;
 };

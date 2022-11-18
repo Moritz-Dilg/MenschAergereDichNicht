@@ -1,9 +1,10 @@
 #include "Figure.hpp"
 
-Figure::Figure(short color, LED* led) {
-	position = 0;
-	color = color;
-	led = led;
+Figure::Figure(short color, Player* player, LED* led) {
+	this->player = player;
+	this->position = 0;
+	this->color = color;
+	this->led = led;
 }
 
 bool Figure::toStart(short& players_in_base) {
@@ -47,6 +48,13 @@ bool Figure::move(short offset) {
 		return true;
 	}
 
+	Figure* opposingFigure = player->getOpposingFigure(new_position);
+	if (opposingFigure != nullptr) {
+		(*this->led).removeFigureFromField(new_position);
+		(*this->led)
+			.setBase(opposingFigure->getInBase() + 1, opposingFigure->color);
+	}
+
 	this->position = new_position;
 	(*this->led).moveFigure(this->position, offset, this->color);
 	return true;
@@ -73,3 +81,5 @@ Figure* Figure::getFigureIfAtPosition(short position) {
 }
 
 short Figure::getPosition() { return this->position; }
+
+short Figure::getInBase() { return player->hasFiguresInBase(); }
