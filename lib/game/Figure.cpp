@@ -55,8 +55,8 @@ bool Figure::move(short offset) {
 			.setBase(opposingFigure->getInBase() + 1, opposingFigure->color);
 	}
 
-	this->position = new_position;
 	(*this->led).moveFigure(this->position, offset, this->color);
+	this->position = new_position;
 	return true;
 }
 
