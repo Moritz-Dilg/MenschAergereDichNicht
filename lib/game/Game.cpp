@@ -2,13 +2,14 @@
 
 #include "FigureSelector.hpp"
 
-Game::Game() {
+Game::Game(Arduino_GFX* gfx) {
 	led = new LED(LED_BRIGHTNESS);
-	players[0] = new Player(BLUE, this, led);
-	players[1] = new Player(YELLOW, this, led);
-	players[2] = new Player(GREEN, this, led);
-	players[3] = new Player(RED, this, led);
+	players[0] = new Player(BLUE, this, led, gfx);
+	players[1] = new Player(YELLOW, this, led, gfx);
+	players[2] = new Player(GREEN, this, led, gfx);
+	players[3] = new Player(RED, this, led, gfx);
 	currentPlayer = 0;
+	this->gfx = gfx;
 
 	pinMode(PIN_BTN_1, INPUT);
 	pinMode(PIN_BTN_2, INPUT);
@@ -25,7 +26,10 @@ Game::~Game() {
 	delete players;
 }
 
-void Game::turn() { players[currentPlayer++]->turn(); }
+void Game::turn() {
+	// TODO: Show turns on TFT
+	players[currentPlayer++]->turn();
+}
 
 Figure* Game::getFigureIfAtPosition(const short position) {
 	for (Player* p : players) {

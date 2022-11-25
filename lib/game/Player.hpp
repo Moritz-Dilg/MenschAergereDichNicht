@@ -1,7 +1,10 @@
 #define __PLAYER__
+#include <Arduino_GFX_Library.h>
+
 #include "Figure.hpp"
 #include "FigureSelector.hpp"
 #include "LED.hpp"
+
 #ifndef __GAME__
 #include "Game.hpp"
 #endif
@@ -14,7 +17,7 @@ class Player {
 	 * @param color The color of the player
 	 * @param led The LED instance
 	 */
-	Player(short color, Game* game, LED* led);
+	Player(short color, Game* game, LED* led, Arduino_GFX* gfx);
 	~Player();
 
 	/**
@@ -89,6 +92,7 @@ class Player {
 	Figure* figures[4];
 	LED* led;
 	Game* game;
+	Arduino_GFX* gfx;
 	short figures_in_base;
 	bool occupied_goal_positions[4];
 	short selected_figure;

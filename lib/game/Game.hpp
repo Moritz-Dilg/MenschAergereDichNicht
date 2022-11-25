@@ -1,11 +1,12 @@
 #define __GAME__
+#include <Arduino_GFX_Library.h>
 #include <sys/types.h>
 
 #include "Player.hpp"
 
 class Game {
    public:
-	Game();
+	Game(Arduino_GFX* gfx);
 	~Game();
 
 	/**
@@ -26,5 +27,6 @@ class Game {
    private:
 	Player* players[4];
 	LED* led;
+	Arduino_GFX* gfx;
 	short currentPlayer;
 };

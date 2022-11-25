@@ -1,8 +1,9 @@
 #include "Player.hpp"
 
-Player::Player(short color, Game* game, LED* led) {
+Player::Player(short color, Game* game, LED* led, Arduino_GFX* gfx) {
 	this->color = color;
 	this->led = led;
+	this->gfx = gfx;
 	this->figures_in_base = 4;
 	this->selected_figure = -1;
 	this->game = game;
@@ -79,6 +80,7 @@ short* Player::getPositions() {
 }
 
 u_int8_t Player::roll_dice() {
+	// TODO: wait for user to press button
 	// TODO: maybe show animation on display
 	// TODO: implement rolling multiple dices if a 6 is rolled.
 	return rand() % 6 + 1;
