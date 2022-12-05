@@ -1,8 +1,4 @@
-#define __GAME__
 #include <Arduino_GFX_Library.h>
-#include <sys/types.h>
-
-#include "Player.hpp"
 
 class Game {
    public:
@@ -26,7 +22,7 @@ class Game {
 
    private:
 	Player* players[4];
-	LED* led;
+	LED_CONTROLLER* led;
 	Arduino_GFX* gfx;
 	short currentPlayer;
 };

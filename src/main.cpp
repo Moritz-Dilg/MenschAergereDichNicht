@@ -1,7 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 #include <Arduino_GFX_Library.h>
 
-#include "Game.hpp"
+#include "_game.hpp"
 
 #define GFX_BL 22
 #define GFX_CS 5

@@ -1,6 +1,6 @@
-#include "Figure.hpp"
+#include "_game.hpp"
 
-Figure::Figure(short color, Player* player, LED* led) {
+Figure::Figure(short color, Player* player, LED_CONTROLLER* led) {
 	this->player = player;
 	this->position = 0;
 	this->color = color;

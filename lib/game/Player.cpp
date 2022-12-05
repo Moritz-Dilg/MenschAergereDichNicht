@@ -1,6 +1,6 @@
-#include "Player.hpp"
+#include "_game.hpp"
 
-Player::Player(short color, Game* game, LED* led, Arduino_GFX* gfx) {
+Player::Player(short color, Game* game, LED_CONTROLLER* led, Arduino_GFX* gfx) {
 	this->color = color;
 	this->led = led;
 	this->gfx = gfx;
@@ -19,7 +19,6 @@ Player::~Player() {
 	for (u_int8_t i = 0; i < 4; i++) {
 		delete this->figures[i];
 	}
-	delete this->figures;
 }
 
 void Player::turn() {
@@ -63,7 +62,7 @@ bool Player::hasAllFiguresInGoal() {
 
 bool Player::toBaseIfHit(short position) {
 	for (u_int8_t i = 0; i < 4; i++) {
-		if (this->figures[i]->getFigureIfAtPosition(position) != NULL) {
+		if (this->figures[i]->getFigureIfAtPosition(position) != nullptr) {
 			this->figures[i]->toBaseIfHit(position, this->figures_in_base);
 			return true;
 		}
@@ -96,5 +95,5 @@ Figure* Player::getFigureIfAtPosition(const short position) {
 }
 
 Figure* Player::getOpposingFigure(const short position) {
-	return game->getFigureIfAtPosition(position);
+	return this->game->getFigureIfAtPosition(position);
 }

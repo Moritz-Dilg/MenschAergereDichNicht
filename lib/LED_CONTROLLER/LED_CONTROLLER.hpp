@@ -2,10 +2,10 @@
 
 #include "../types.hpp"
 
-class LED {
+class LED_CONTROLLER {
    public:
-	LED(u_int8_t brightness);
-	~LED();
+	LED_CONTROLLER(u_int8_t brightness);
+	~LED_CONTROLLER();
 
 	void begin();
 	void setBase(u_int8_t n, u_int8_t color);

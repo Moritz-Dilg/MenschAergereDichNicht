@@ -1,33 +1,56 @@
-#include "Game.hpp"
+#include "_game.hpp"
+/*
+void IRAM_ATTR PRESS_BTN_1() { FigureSelector::pressed_button = 1; }
 
-#include "FigureSelector.hpp"
+void IRAM_ATTR PRESS_BTN_2() { FigureSelector::pressed_button = 2; }
+
+void IRAM_ATTR PRESS_BTN_3() { FigureSelector::pressed_button = 3; }*/
 
 Game::Game(Arduino_GFX* gfx) {
-	led = new LED(LED_BRIGHTNESS);
-	players[0] = new Player(BLUE, this, led, gfx);
-	players[1] = new Player(YELLOW, this, led, gfx);
-	players[2] = new Player(GREEN, this, led, gfx);
-	players[3] = new Player(RED, this, led, gfx);
+	led = new LED_CONTROLLER(LED_BRIGHTNESS);
+	players[0] = new Player(P_BLUE, this, led, gfx);
+	players[1] = new Player(P_YELLOW, this, led, gfx);
+	players[2] = new Player(P_GREEN, this, led, gfx);
+	players[3] = new Player(P_RED, this, led, gfx);
 	currentPlayer = 0;
 	this->gfx = gfx;
 
-	pinMode(PIN_BTN_1, INPUT);
+	// TODO: fix buttons
+	/*pinMode(PIN_BTN_1, INPUT);
 	pinMode(PIN_BTN_2, INPUT);
 	pinMode(PIN_BTN_3, INPUT);
 	attachInterrupt(PIN_BTN_1, PRESS_BTN_1, FALLING);
 	attachInterrupt(PIN_BTN_2, PRESS_BTN_2, FALLING);
-	attachInterrupt(PIN_BTN_3, PRESS_BTN_3, FALLING);
+	attachInterrupt(PIN_BTN_3, PRESS_BTN_3, FALLING);*/
 }
 
 Game::~Game() {
 	for (Player* player : players) {
 		delete player;
 	}
-	delete players;
 }
 
 void Game::turn() {
 	// TODO: Show turns on TFT
+	gfx->setCursor(10, 10);
+	gfx->setTextColor(WHITE);
+	switch (currentPlayer) {
+		case P_BLUE:
+			gfx->println("Blau ist dran!");
+			break;
+		case P_YELLOW:
+			gfx->println("Gelb ist dran!");
+			break;
+		case P_GREEN:
+			gfx->println("Grün ist dran!");
+			break;
+		case P_RED:
+			gfx->println("Rot ist dran!");
+			break;
+		default:
+			break;
+	}
+
 	players[currentPlayer++]->turn();
 }
 
@@ -43,9 +66,3 @@ Figure* Game::getFigureIfAtPosition(const short position) {
 	}
 	return nullptr;
 }
-
-void IRAM_ATTR PRESS_BTN_1() { FigureSelector::pressed_button = 1; }
-
-void IRAM_ATTR PRESS_BTN_2() { FigureSelector::pressed_button = 2; }
-
-void IRAM_ATTR PRESS_BTN_3() { FigureSelector::pressed_button = 3; }

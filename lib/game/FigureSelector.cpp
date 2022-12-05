@@ -1,9 +1,9 @@
-#include "FigureSelector.hpp"
-
 #include <chrono>
 
-short FigureSelector::select(LED* led, short positions[4]) {
-	u_int8_t selected = 0;
+#include "_game.hpp"
+
+short FigureSelector::select(LED_CONTROLLER* led, short positions[4]) {
+	/*u_int8_t selected = 0;
 	u_int64_t last_update = 0;
 
 	while (true) {
@@ -29,6 +29,5 @@ short FigureSelector::select(LED* led, short positions[4]) {
 			default:
 				break;
 		}
-		FigureSelector::pressed_button = 0;
-	}
+		FigureSelector::pressed_button = 0;*/
 }

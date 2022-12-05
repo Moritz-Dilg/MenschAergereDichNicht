@@ -1,4 +1,3 @@
-#include "LED.hpp"
 
 class FigureSelector {
    public:
@@ -14,5 +13,5 @@ class FigureSelector {
 	 *
 	 * @returns The index of the selected figure
 	 */
-	static short select(LED* led, short positions[4]);
+	static short select(LED_CONTROLLER* led, short positions[4]);
 };

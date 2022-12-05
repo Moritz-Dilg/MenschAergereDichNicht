@@ -1,12 +1,9 @@
-#include "../types.hpp"
-#include "LED.hpp"
-#ifndef __PLAYER__
-#include "Player.hpp"
-#endif
+class Player;
+class LED_CONTROLLER;
 
 class Figure {
    public:
-	Figure(short color, Player* player, LED* led);
+	Figure(short color, Player* player, LED_CONTROLLER* led);
 
 	/**
 	 * @brief Moves the figure to the start position
@@ -60,5 +57,5 @@ class Figure {
 	short position;
 	short color;
 	Player* player;
-	LED* led;
+	LED_CONTROLLER* led;
 };
