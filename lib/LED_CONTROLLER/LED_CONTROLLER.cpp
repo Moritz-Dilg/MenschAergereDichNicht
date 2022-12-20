@@ -170,21 +170,24 @@ void LED_CONTROLLER::removeFigureFromField(u_int8_t position) {
  */
 void LED_CONTROLLER::moveFigure(u_int8_t i, u_int8_t n, u_int8_t color) {
 	fieldStrip.setPixelColor(i, fieldStrip.Color(0, 0, 0));
+	u_int8_t new_position = i + n;
+	if (new_position > 39) new_position -= 40;
 	switch (color) {
 		case P_BLUE:
-			fieldStrip.setPixelColor(i + n, fieldStrip.Color(0, 0, 255));
+			fieldStrip.setPixelColor(new_position, fieldStrip.Color(0, 0, 255));
 			break;
 
 		case P_YELLOW:
-			fieldStrip.setPixelColor(i + n, fieldStrip.Color(255, 255, 0));
+			fieldStrip.setPixelColor(new_position,
+									 fieldStrip.Color(255, 255, 0));
 			break;
 
 		case P_GREEN:
-			fieldStrip.setPixelColor(i + n, fieldStrip.Color(0, 255, 0));
+			fieldStrip.setPixelColor(new_position, fieldStrip.Color(0, 255, 0));
 			break;
 
 		case P_RED:
-			fieldStrip.setPixelColor(i + n, fieldStrip.Color(255, 0, 0));
+			fieldStrip.setPixelColor(new_position, fieldStrip.Color(255, 0, 0));
 			break;
 
 		default:

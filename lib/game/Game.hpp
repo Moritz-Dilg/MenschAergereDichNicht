@@ -20,6 +20,15 @@ class Game {
 	 */
 	Figure* getFigureIfAtPosition(const short position);
 
+	/**
+	 * @brief Puts any figure in base, if at position
+	 *
+	 * @param position The position to check for
+	 * @return true A Figure has been returned to base
+	 * @return false No Figure has been retruned to base
+	 */
+	bool toBaseIfHit(const short position);
+
    private:
 	Player* players[4];
 	LED_CONTROLLER* led;

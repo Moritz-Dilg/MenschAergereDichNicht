@@ -12,7 +12,9 @@ Player::Player(short color, Game* game, LED_CONTROLLER* led, Arduino_GFX* gfx) {
 		this->occupied_goal_positions[i] = false;
 	}
 
-	(*led).setBase(4, color);
+	//(*led).setBase(4, color);
+
+	led->setBase(4, color);
 }
 
 Player::~Player() {
@@ -24,12 +26,51 @@ Player::~Player() {
 void Player::turn() {
 	u_int8_t dice_result = roll_dice();
 
+	// If no figure is on the field, try again, if not 6 (max 3 times (including
+	// first roll))
+	for (u_int8_t i = 0; i < 2 && !this->hasFiguresInGame() &&
+						 this->figures_in_base != 0 && dice_result != 6;
+		 i++) {
+		dice_result = roll_dice();
+	}
+
+	short field_at_entry_point = this->color * 10 + 1;
+	Figure* figure_at_entry_point = getFigureIfAtPosition(field_at_entry_point);
+
+	if (dice_result == 6 && figures_in_base > 0) {
+		// Move figure from base to start
+		if (figure_at_entry_point == nullptr) {
+			for (Figure* f : figures) {
+				if (f->isInBase()) {
+					this->game->toBaseIfHit(this->color * 10 + 1);
+					f->toStart(this->figures_in_base);
+					break;
+				}
+			}
+		}
+		// Remove figure from start blocking exit
+		else {
+			// TODO: Move figure in front of base (or the next one, if it would
+			// hit)
+		}
+
+		delay(5000);
+		// Turn again if rolled 6
+		this->turn();
+		return;
+	}
 	// Select figure
-	this->selected_figure =
-		FigureSelector::select(this->led, this->getPositions());
+	this->selected_figure = 0;
+	// FigureSelector::select(this->led, this->getPositions());
 
 	// Move figure
 	this->move(this->selected_figure, dice_result);
+	delay(5000);
+
+	// Turn again if rolled 6
+	if (dice_result == 6) {
+		this->turn();
+	}
 }
 
 bool Player::move(short figure, short offset) {
@@ -82,7 +123,10 @@ u_int8_t Player::roll_dice() {
 	// TODO: wait for user to press button
 	// TODO: maybe show animation on display
 	// TODO: implement rolling multiple dices if a 6 is rolled.
-	return rand() % 6 + 1;
+	u_int8_t dice_result = rand() % 6 + 1;
+	gfx->setCursor(10, 20);
+	gfx->printf("%d gewuerfelt", dice_result);
+	return dice_result;
 }
 
 Figure* Player::getFigureIfAtPosition(const short position) {
@@ -96,4 +140,10 @@ Figure* Player::getFigureIfAtPosition(const short position) {
 
 Figure* Player::getOpposingFigure(const short position) {
 	return this->game->getFigureIfAtPosition(position);
+}
+
+short Player::getFiguresInBase() { return this->figures_in_base; }
+
+bool Player::gameToBaseIfHit(const short position) {
+	return this->game->toBaseIfHit(position);
 }

@@ -8,6 +8,7 @@ void IRAM_ATTR PRESS_BTN_3() { FigureSelector::pressed_button = 3; }*/
 
 Game::Game(Arduino_GFX* gfx) {
 	led = new LED_CONTROLLER(LED_BRIGHTNESS);
+	led->begin();
 	players[0] = new Player(P_BLUE, this, led, gfx);
 	players[1] = new Player(P_YELLOW, this, led, gfx);
 	players[2] = new Player(P_GREEN, this, led, gfx);
@@ -31,7 +32,9 @@ Game::~Game() {
 }
 
 void Game::turn() {
+	currentPlayer %= 4;
 	// TODO: Show turns on TFT
+	gfx->fillScreen(BLACK);
 	gfx->setCursor(10, 10);
 	gfx->setTextColor(WHITE);
 	switch (currentPlayer) {
@@ -42,7 +45,7 @@ void Game::turn() {
 			gfx->println("Gelb ist dran!");
 			break;
 		case P_GREEN:
-			gfx->println("Grün ist dran!");
+			gfx->println("Gruen ist dran!");
 			break;
 		case P_RED:
 			gfx->println("Rot ist dran!");
@@ -56,13 +59,18 @@ void Game::turn() {
 
 Figure* Game::getFigureIfAtPosition(const short position) {
 	for (Player* p : players) {
-		auto positions = p->getPositions();
-		for (short i = 0; i < 4; i++) {
-			Figure* f = p->getFigureIfAtPosition(position);
-			if (f != nullptr) {
-				return f;
-			}
+		Figure* f = p->getFigureIfAtPosition(position);
+		if (f != nullptr) {
+			return f;
 		}
 	}
 	return nullptr;
+}
+
+bool Game::toBaseIfHit(const short position) {
+	for (Player* p : players) {
+		if (p->toBaseIfHit(position)) return true;
+	}
+
+	return false;
 }

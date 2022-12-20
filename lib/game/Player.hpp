@@ -82,6 +82,22 @@ class Player {
 	 */
 	Figure* getOpposingFigure(const short position);
 
+	/**
+	 * @brief Get number of Figures in Base
+	 *
+	 * @return number of Figures in Base
+	 */
+	short getFiguresInBase();
+
+	/**
+	 * @brief Returns a figure to base if it is at the given position
+	 *
+	 * @param position The position to check for
+	 * @return true if the figure has been returned to base
+	 * @return false if the figure has not been returned to base
+	 */
+	bool gameToBaseIfHit(const short position);
+
    private:
 	Figure* figures[4];
 	LED_CONTROLLER* led;

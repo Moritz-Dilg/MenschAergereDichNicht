@@ -18,16 +18,18 @@ Arduino_DataBus *bus =
 Arduino_GFX *gfx = new Arduino_ST7735(bus, GFX_RST, 0 /* rotation */, false,
 									  128, 160, 0, 0, 0, 0, GFX_BGR);
 
-Game *game = new Game(gfx);
+Game *game;
 
 void setup(void) {
 	// TFT
 	gfx->begin();
 	gfx->fillScreen(BLACK);
 
-	gfx->setCursor(10, 10);
+	/*gfx->setCursor(10, 10);
 	gfx->setTextColor(WHITE);
-	gfx->println("Hello World!");
+	gfx->println("Hello World!");*/
+
+	game = new Game(gfx);
 }
 
 void loop() { game->turn(); }

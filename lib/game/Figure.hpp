@@ -8,10 +8,10 @@ class Figure {
 	/**
 	 * @brief Moves the figure to the start position
 	 *
-	 * @param players_in_base Number of players in base
+	 * @param figures_in_base Number of players in base
 	 * @return false if the figure is already in the game.
 	 */
-	bool toStart(short& players_in_base);
+	bool toStart(short& figures_in_base);
 
 	/**
 	 * @brief Moves the figure by the given offset, handles defeating other
@@ -26,10 +26,10 @@ class Figure {
 	 * @brief Removes the figure from the game if it is on the given position
 	 *
 	 * @param position The position to check for
-	 * @param players_in_base Number of players in base
+	 * @param figures_in_base Number of players in base
 	 * @return true if the figure was removed
 	 */
-	bool toBaseIfHit(short position, short& players_in_base);
+	bool toBaseIfHit(short position, short& figures_in_base);
 
 	/**
 	 * @brief Returns the figure if it is at the given position or NULL
@@ -49,9 +49,9 @@ class Figure {
 	short getPosition();
 
 	/**
-	 * @return The number of figures currently in the base.
+	 * @return true if the figure is in base
 	 */
-	short getInBase();
+	bool isInBase();
 
    private:
 	short position;
