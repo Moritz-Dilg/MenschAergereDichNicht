@@ -60,7 +60,7 @@ void LED_CONTROLLER::setBase(u_int8_t n, u_int8_t color) {
 
 			case P_YELLOW:
 				baseStrip.setPixelColor(ledOrder[i],
-										baseStrip.Color(255, 255, 0));
+										baseStrip.Color(255, 100, 0));
 				break;
 
 			case P_GREEN:
@@ -102,7 +102,7 @@ void LED_CONTROLLER::setGoal(u_int8_t n, u_int8_t color, int8_t from) {
 
 		case P_YELLOW:
 			goalStrip.setPixelColor(color * 4 + (3 - n),
-									goalStrip.Color(255, 255, 0));
+									goalStrip.Color(255, 100, 0));
 			break;
 
 		case P_GREEN:
@@ -134,7 +134,7 @@ void LED_CONTROLLER::setFigureToStart(u_int8_t color) {
 			break;
 
 		case P_YELLOW:
-			fieldStrip.setPixelColor(10, fieldStrip.Color(255, 255, 0));
+			fieldStrip.setPixelColor(10, fieldStrip.Color(255, 100, 0));
 			break;
 
 		case P_GREEN:
@@ -179,7 +179,7 @@ void LED_CONTROLLER::moveFigure(u_int8_t i, u_int8_t n, u_int8_t color) {
 
 		case P_YELLOW:
 			fieldStrip.setPixelColor(new_position,
-									 fieldStrip.Color(255, 255, 0));
+									 fieldStrip.Color(255, 100, 0));
 			break;
 
 		case P_GREEN:
