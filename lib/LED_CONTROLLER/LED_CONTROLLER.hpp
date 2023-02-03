@@ -13,6 +13,8 @@ class LED_CONTROLLER {
 	void setFigureToStart(u_int8_t color);
 	void removeFigureFromField(u_int8_t position);
 	void moveFigure(u_int8_t i, u_int8_t n, u_int8_t color);
+	void setFigure(u_int8_t i, u_int8_t color);
+	void clearFigure(u_int8_t i, u_int8_t color);
 
    private:
 	bool verifyNFigures(u_int8_t n) { return n >= 0 && n <= 4; }

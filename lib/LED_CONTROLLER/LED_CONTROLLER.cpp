@@ -196,6 +196,104 @@ void LED_CONTROLLER::moveFigure(u_int8_t i, u_int8_t n, u_int8_t color) {
 	fieldStrip.show();
 }
 
+/**
+ * @brief Set a figure at a given position ()
+ *
+ * @param i Position of figure (field: 1...40, goal: -1...-4)
+ * @param color Color to set, use the defines P_BLUE, P_YELLOW, P_GREEN, P_RED
+ */
+void LED_CONTROLLER::setFigure(u_int8_t i, u_int8_t color) {
+	if (i <= 0) {
+		switch (color) {
+			case P_BLUE:
+				goalStrip.setPixelColor(color * 4 - i - 1,
+										goalStrip.Color(0, 0, 255));
+				break;
+
+			case P_YELLOW:
+				goalStrip.setPixelColor(color * 4 + (2 + i),
+										goalStrip.Color(255, 100, 0));
+				break;
+
+			case P_GREEN:
+				goalStrip.setPixelColor(color * 4 + (2 + i),
+										goalStrip.Color(0, 255, 0));
+				break;
+
+			case P_RED:
+				goalStrip.setPixelColor(color * 4 + (2 + i),
+										goalStrip.Color(255, 0, 0));
+				break;
+
+			default:
+				break;
+		}
+		goalStrip.show();
+	} else {
+		switch (color) {
+			case P_BLUE:
+				fieldStrip.setPixelColor(i - 1, fieldStrip.Color(0, 0, 255));
+				break;
+
+			case P_YELLOW:
+				fieldStrip.setPixelColor(i - 1, fieldStrip.Color(255, 100, 0));
+				break;
+
+			case P_GREEN:
+				fieldStrip.setPixelColor(i - 1, fieldStrip.Color(0, 255, 0));
+				break;
+
+			case P_RED:
+				fieldStrip.setPixelColor(i - 1, fieldStrip.Color(255, 0, 0));
+				break;
+
+			default:
+				break;
+		}
+		fieldStrip.show();
+	}
+}
+
+/**
+ * @brief Clear a figure at given position (used for toggling)
+ *
+ * @param i Position of figure (field: 1...40, goal: -1...-4)
+ * @param color Color of the figure, only needed when in goal,
+ * 		use the defines P_BLUE, P_YELLOW, P_GREEN, P_RED
+ */
+void LED_CONTROLLER::clearFigure(u_int8_t i, u_int8_t color) {
+	if (i <= 0) {
+		switch (color) {
+			case P_BLUE:
+				goalStrip.setPixelColor(color * 4 - i - 1,
+										goalStrip.Color(0, 0, 0));
+				break;
+
+			case P_YELLOW:
+				goalStrip.setPixelColor(color * 4 + (2 + i),
+										goalStrip.Color(0, 0, 0));
+				break;
+
+			case P_GREEN:
+				goalStrip.setPixelColor(color * 4 + (2 + i),
+										goalStrip.Color(0, 0, 0));
+				break;
+
+			case P_RED:
+				goalStrip.setPixelColor(color * 4 + (2 + i),
+										goalStrip.Color(0, 0, 0));
+				break;
+
+			default:
+				break;
+		}
+		goalStrip.show();
+	} else {
+		fieldStrip.setPixelColor(i - 1, fieldStrip.Color(0, 0, 0));
+		fieldStrip.show();
+	}
+}
+
 // Deallocate LED object
 LED_CONTROLLER::~LED_CONTROLLER() {
 	fieldStrip.~Adafruit_NeoPixel();
