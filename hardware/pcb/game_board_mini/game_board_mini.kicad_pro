@@ -37,11 +37,11 @@
           "height": 1.524,
           "width": 1.524
         },
-        "silk_line_width": 0.15,
+        "silk_line_width": 0.1143,
         "silk_text_italic": false,
-        "silk_text_size_h": 1.0,
-        "silk_text_size_v": 1.0,
-        "silk_text_thickness": 0.15,
+        "silk_text_size_h": 0.635,
+        "silk_text_size_v": 0.635,
+        "silk_text_thickness": 0.1143,
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
@@ -125,6 +125,7 @@
         0.2032,
         0.2286,
         0.254,
+        0.2921,
         0.3048,
         0.4064
       ],
@@ -132,6 +133,18 @@
         {
           "diameter": 0.0,
           "drill": 0.0
+        },
+        {
+          "diameter": 0.381,
+          "drill": 0.1778
+        },
+        {
+          "diameter": 0.508,
+          "drill": 0.254
+        },
+        {
+          "diameter": 0.7874,
+          "drill": 0.381
         }
       ],
       "zones_allow_external_fillets": false,
