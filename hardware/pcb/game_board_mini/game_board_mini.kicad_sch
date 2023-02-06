@@ -2705,7 +2705,7 @@
       (reference "R75") (unit 1) (value "10k") (footprint "Resistor_SMD:R_0805_2012Metric")
     )
     (path "/3a2ed4ad-cc31-4767-85e2-3f85c2a0acfb/91df86e5-cdd4-4401-8176-be3298659dba"
-      (reference "R76") (unit 1) (value "10k") (footprint "Resistor_SMD:R_0805_2012Metric")
+      (reference "R76") (unit 1) (value "10k") (footprint "Resistor_SMD:R_0603_1608Metric")
     )
     (path "/3a2ed4ad-cc31-4767-85e2-3f85c2a0acfb/79ad2ee6-e105-4763-b2aa-7f4960e5ffc8"
       (reference "R77") (unit 1) (value "22") (footprint "Resistor_SMD:R_0603_1608Metric")
