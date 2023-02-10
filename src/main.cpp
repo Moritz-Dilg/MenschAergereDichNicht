@@ -29,6 +29,9 @@ void setup(void) {
 	gfx->setTextColor(WHITE);
 	gfx->println("Hello World!");*/
 
+	srand(time(NULL));
+	Serial.begin(9600);
+	Serial.println("main");
 	game = new Game(gfx);
 }
 

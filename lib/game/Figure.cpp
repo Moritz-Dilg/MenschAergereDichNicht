@@ -25,20 +25,29 @@ bool Figure::move(short offset) {
 		return false;
 	}
 
+	if (this->position < 0) {
+		if (this->position - offset < -4) {
+			return false;
+		}
+
+		this->led->setGoal((-this->position - 1) + offset, this->color,
+						   -this->position - 1);
+		this->position -= offset;
+		return true;
+	}
+
 	short new_position = this->position + offset;
 
 	short field_before_goal = this->color * 10;
 	if (field_before_goal <= 0) field_before_goal += 40;
 	// Figure in goal
-	if (this->position < field_before_goal &&
-		new_position >= field_before_goal) {
+	if (this->position <= field_before_goal &&
+		new_position > field_before_goal) {
 		short fields_in_goal = new_position - field_before_goal;
 		if (fields_in_goal > 4) {
-			// TODO: Handle error, if figure doesn't fit in field/goal
 			return true;
 		}
 
-		// TODO: Check if position in goal is free
 		new_position = -fields_in_goal;
 		(*this->led).setGoal(-new_position - 1, this->color);
 		(*this->led).removeFigureFromField(this->position - 1);

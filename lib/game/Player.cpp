@@ -1,11 +1,16 @@
 #include "_game.hpp"
 
+// TODO: sechser im game wean teilweise verschluckt
+// TODO: figua am start muas bewegt wean won nu figuan in da base san
+// TODO (??): selector sometimes weird
+// TODO (LEDLIB ERROR): figuan im goal blinkn ned
+
 Player::Player(short color, Game* game, LED_CONTROLLER* led, Arduino_GFX* gfx) {
 	this->color = color;
 	this->led = led;
 	this->gfx = gfx;
 	this->figures_in_base = 4;
-	this->selected_figure = -1;
+	this->selected_figure = nullptr;
 	this->game = game;
 	for (u_int8_t i = 0; i < 4; i++) {
 		this->figures[i] = new Figure(color, this, led);
@@ -39,6 +44,7 @@ void Player::turn() {
 
 	if (dice_result == 6 && figures_in_base > 0) {
 		// Move figure from base to start
+		Serial.println("Moving from base to start...");
 		if (figure_at_entry_point == nullptr) {
 			for (Figure* f : figures) {
 				if (f->isInBase()) {
@@ -54,30 +60,102 @@ void Player::turn() {
 			// hit)
 		}
 
-		delay(5000);
 		// Turn again if rolled 6
 		this->turn();
 		return;
 	}
-	// Select figure
-	this->selected_figure = 0;
-	// FigureSelector::select(this->led, this->getPositions());
 
-	// Move figure
-	this->move(this->selected_figure, dice_result);
-	delay(5000);
+	// Sort out figures that can't be moved
+	short* pos = this->getPositions();
+	short moveable_figures = 0, moveable_figures_pos[4];
+	Serial.println("Positions: ");
+	for (u_int8_t i = 0; i < 4; i++) {
+		Serial.printf("%d:\n", pos[i]);
+		if (pos[i] == 0) continue;
+
+		bool can = true;
+		for (u_int8_t j = 0; j < 4; j++) {
+			if (i == j) continue;
+			Serial.printf("Checking %d against %d", pos[i], pos[j]);
+
+			if (pos[i] < 0) {
+				if (pos[j] < 0) {
+					if (pos[i] - dice_result == pos[j] ||
+						pos[i] - dice_result < -4) {
+						can = false;
+						Serial.println(" -> no");
+						break;
+					}
+				}
+				if (pos[i] - dice_result < -4) {
+					can = false;
+					Serial.println(" -> no");
+					break;
+				}
+				continue;
+			}
+
+			short new_pos = pos[i] + dice_result;
+			short field_before_goal =
+				this->color * 10 == 0 ? 40 : this->color * 10;
+			if (new_pos == pos[j]) {
+				can = false;
+				Serial.println(" -> no");
+				break;
+			} else if (pos[i] <= field_before_goal &&
+					   new_pos > field_before_goal) {
+				short remain = field_before_goal - new_pos;
+				if (remain < -4) {
+					can = false;
+					Serial.println(" -> no");
+					break;
+				}
+			}
+		}
+		Serial.println(" -> yes");
+
+		if (can) {
+			moveable_figures_pos[moveable_figures++] = pos[i];
+		}
+	}
+	Serial.println();
+
+	if (moveable_figures != 0) {
+		// Select figure
+		this->selected_figure = this->getFigureIfAtPosition(
+			FigureSelector::select(this->led, this->color, moveable_figures,
+								   moveable_figures_pos));
+		if (this->selected_figure == nullptr) {
+			Serial.println("Selected figure is null.\nExiting...\n");
+			exit(-1);
+		}
+
+		// Move figure
+		Serial.println("Moving1...");
+		this->move(this->selected_figure, dice_result);
+		Serial.println("Done Moving2.");
+	} else {
+		Serial.println("No figure can be moved.");
+	}
+
+	// delay(5000);
 
 	// Turn again if rolled 6
 	if (dice_result == 6) {
+		Serial.println("Turn again (rolled 6)...");
 		this->turn();
 	}
 }
 
-bool Player::move(short figure, short offset) {
-	if (this->figures[figure]->getPosition() != 0) {
-		this->figures[figure]->move(offset);
+bool Player::move(Figure* figure, short offset) {
+	Serial.println("Moving2...");
+	Serial.printf("Figure: %d, Offset: %d\n", figure, offset);
+	if (figure->getPosition() != 0) {
+		Serial.printf("Moving Figure %d by %d\n", figure, offset);
+		figure->move(offset);
 		return true;
 	}
+	Serial.println("Done Moving1.");
 	return false;
 }
 
@@ -85,7 +163,7 @@ bool Player::isGoalPosFree(short position) {
 	return !this->occupied_goal_positions[position];
 }
 
-short Player::hasFiguresInGame() {
+short Player::hasFiguresInGame() {	// TODO: wtf does this do???
 	u_int8_t c = 0;
 	for (u_int8_t i = 0; i < 4; i++) {
 		if (this->isGoalPosFree(i)) {
@@ -120,12 +198,17 @@ short* Player::getPositions() {
 }
 
 u_int8_t Player::roll_dice() {
-	// TODO: wait for user to press button
 	// TODO: maybe show animation on display
-	// TODO: implement rolling multiple dices if a 6 is rolled.
-	u_int8_t dice_result = rand() % 6 + 1;
+
 	gfx->setCursor(10, 20);
-	gfx->printf("%d gewuerfelt", dice_result);
+	gfx->println("Waiting...");
+
+	Serial.println("Rolling dice...\nWaiting for btn3...");
+	FigureSelector::waitForConfirm();
+
+	u_int8_t dice_result = rand() % 6 + 1;
+	gfx->printf("%d gewuerfelt\n", dice_result);
+	Serial.printf("Done waiting...\nRolled %d\n", dice_result);
 	return dice_result;
 }
 

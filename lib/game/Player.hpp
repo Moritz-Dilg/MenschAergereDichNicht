@@ -105,7 +105,7 @@ class Player {
 	Arduino_GFX* gfx;
 	short figures_in_base;
 	bool occupied_goal_positions[4];
-	short selected_figure;
+	Figure* selected_figure;
 	short color;
 
 	/**
@@ -116,7 +116,7 @@ class Player {
 	 * @param offset The offset to move the figure by
 	 * @return false if the figure is not in the game.
 	 */
-	bool move(short figure, short offset);
+	bool move(Figure* figure, short offset);
 
 	/**
 	 * @brief Simulates a dice roll. (MAYBE shows animation on display)

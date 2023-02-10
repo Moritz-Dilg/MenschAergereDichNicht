@@ -1,10 +1,19 @@
 #include "_game.hpp"
-/*
-void IRAM_ATTR PRESS_BTN_1() { FigureSelector::pressed_button = 1; }
 
-void IRAM_ATTR PRESS_BTN_2() { FigureSelector::pressed_button = 2; }
+void IRAM_ATTR PRESS_BTN_1() {
+	// Serial.println("B1");
+	FigureSelector::pressed_button = 1;
+}
 
-void IRAM_ATTR PRESS_BTN_3() { FigureSelector::pressed_button = 3; }*/
+void IRAM_ATTR PRESS_BTN_2() {
+	// Serial.println("B2");
+	FigureSelector::pressed_button = 2;
+}
+
+void IRAM_ATTR PRESS_BTN_3() {
+	// Serial.println("B3");
+	FigureSelector::pressed_button = 3;
+}
 
 Game::Game(Arduino_GFX* gfx) {
 	led = new LED_CONTROLLER(LED_BRIGHTNESS);
@@ -16,13 +25,12 @@ Game::Game(Arduino_GFX* gfx) {
 	currentPlayer = 0;
 	this->gfx = gfx;
 
-	// TODO: fix buttons
-	/*pinMode(PIN_BTN_1, INPUT);
+	pinMode(PIN_BTN_1, INPUT);
 	pinMode(PIN_BTN_2, INPUT);
 	pinMode(PIN_BTN_3, INPUT);
 	attachInterrupt(PIN_BTN_1, PRESS_BTN_1, FALLING);
 	attachInterrupt(PIN_BTN_2, PRESS_BTN_2, FALLING);
-	attachInterrupt(PIN_BTN_3, PRESS_BTN_3, FALLING);*/
+	attachInterrupt(PIN_BTN_3, PRESS_BTN_3, FALLING);
 }
 
 Game::~Game() {
@@ -32,6 +40,8 @@ Game::~Game() {
 }
 
 void Game::turn() {
+	Serial.println("turn\n\n\n");
+
 	currentPlayer %= 4;
 	// TODO: Show turns on TFT
 	gfx->fillScreen(BLACK);
@@ -39,15 +49,19 @@ void Game::turn() {
 	gfx->setTextColor(WHITE);
 	switch (currentPlayer) {
 		case P_BLUE:
+			Serial.println("Blau ist dran!");
 			gfx->println("Blau ist dran!");
 			break;
 		case P_YELLOW:
+			Serial.println("Gelb ist dran!");
 			gfx->println("Gelb ist dran!");
 			break;
 		case P_GREEN:
+			Serial.println("Gruen ist dran!");
 			gfx->println("Gruen ist dran!");
 			break;
 		case P_RED:
+			Serial.println("Rot ist dran!");
 			gfx->println("Rot ist dran!");
 			break;
 		default:
