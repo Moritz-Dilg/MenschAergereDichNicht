@@ -202,7 +202,7 @@ void LED_CONTROLLER::moveFigure(u_int8_t i, u_int8_t n, u_int8_t color) {
  * @param i Position of figure (field: 1...40, goal: -1...-4)
  * @param color Color to set, use the defines P_BLUE, P_YELLOW, P_GREEN, P_RED
  */
-void LED_CONTROLLER::setFigure(u_int8_t i, u_int8_t color) {
+void LED_CONTROLLER::setFigure(int8_t i, u_int8_t color) {
 	if (i <= 0) {
 		switch (color) {
 			case P_BLUE:
@@ -211,17 +211,17 @@ void LED_CONTROLLER::setFigure(u_int8_t i, u_int8_t color) {
 				break;
 
 			case P_YELLOW:
-				goalStrip.setPixelColor(color * 4 + (2 + i),
+				goalStrip.setPixelColor(color * 4 + (4 + i),
 										goalStrip.Color(255, 100, 0));
 				break;
 
 			case P_GREEN:
-				goalStrip.setPixelColor(color * 4 + (2 + i),
+				goalStrip.setPixelColor(color * 4 + (4 + i),
 										goalStrip.Color(0, 255, 0));
 				break;
 
 			case P_RED:
-				goalStrip.setPixelColor(color * 4 + (2 + i),
+				goalStrip.setPixelColor(color * 4 + (4 + i),
 										goalStrip.Color(255, 0, 0));
 				break;
 
@@ -261,7 +261,7 @@ void LED_CONTROLLER::setFigure(u_int8_t i, u_int8_t color) {
  * @param color Color of the figure, only needed when in goal,
  * 		use the defines P_BLUE, P_YELLOW, P_GREEN, P_RED
  */
-void LED_CONTROLLER::clearFigure(u_int8_t i, u_int8_t color) {
+void LED_CONTROLLER::clearFigure(int8_t i, u_int8_t color) {
 	if (i <= 0) {
 		switch (color) {
 			case P_BLUE:
@@ -270,17 +270,17 @@ void LED_CONTROLLER::clearFigure(u_int8_t i, u_int8_t color) {
 				break;
 
 			case P_YELLOW:
-				goalStrip.setPixelColor(color * 4 + (2 + i),
+				goalStrip.setPixelColor(color * 4 + (4 + i),
 										goalStrip.Color(0, 0, 0));
 				break;
 
 			case P_GREEN:
-				goalStrip.setPixelColor(color * 4 + (2 + i),
+				goalStrip.setPixelColor(color * 4 + (4 + i),
 										goalStrip.Color(0, 0, 0));
 				break;
 
 			case P_RED:
-				goalStrip.setPixelColor(color * 4 + (2 + i),
+				goalStrip.setPixelColor(color * 4 + (4 + i),
 										goalStrip.Color(0, 0, 0));
 				break;
 

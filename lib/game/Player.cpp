@@ -3,7 +3,6 @@
 // TODO: sechser im game wean teilweise verschluckt
 // TODO: figua am start muas bewegt wean won nu figuan in da base san
 // TODO (??): selector sometimes weird
-// TODO (LEDLIB ERROR): figuan im goal blinkn ned
 
 Player::Player(short color, Game* game, LED_CONTROLLER* led, Arduino_GFX* gfx) {
 	this->color = color;
