@@ -1,19 +1,10 @@
 #include "_game.hpp"
 
-void IRAM_ATTR PRESS_BTN_1() {
-	// Serial.println("B1");
-	FigureSelector::pressed_button = 1;
-}
+void IRAM_ATTR PRESS_BTN_C() { FigureSelector::pressed_button = BTN_C; }
 
-void IRAM_ATTR PRESS_BTN_2() {
-	// Serial.println("B2");
-	FigureSelector::pressed_button = 2;
-}
+void IRAM_ATTR PRESS_BTN_B() { FigureSelector::pressed_button = BTN_B; }
 
-void IRAM_ATTR PRESS_BTN_3() {
-	// Serial.println("B3");
-	FigureSelector::pressed_button = 3;
-}
+void IRAM_ATTR PRESS_BTN_A() { FigureSelector::pressed_button = BTN_A; }
 
 Game::Game(Arduino_GFX* gfx) {
 	led = new LED_CONTROLLER(LED_BRIGHTNESS);
@@ -25,12 +16,12 @@ Game::Game(Arduino_GFX* gfx) {
 	currentPlayer = 0;
 	this->gfx = gfx;
 
-	pinMode(PIN_BTN_1, INPUT);
-	pinMode(PIN_BTN_2, INPUT);
-	pinMode(PIN_BTN_3, INPUT);
-	attachInterrupt(PIN_BTN_1, PRESS_BTN_1, FALLING);
-	attachInterrupt(PIN_BTN_2, PRESS_BTN_2, FALLING);
-	attachInterrupt(PIN_BTN_3, PRESS_BTN_3, FALLING);
+	pinMode(PIN_BTN_C, INPUT);
+	pinMode(PIN_BTN_B, INPUT);
+	pinMode(PIN_BTN_A, INPUT);
+	attachInterrupt(PIN_BTN_C, PRESS_BTN_C, FALLING);
+	attachInterrupt(PIN_BTN_B, PRESS_BTN_B, FALLING);
+	attachInterrupt(PIN_BTN_A, PRESS_BTN_A, FALLING);
 }
 
 Game::~Game() {

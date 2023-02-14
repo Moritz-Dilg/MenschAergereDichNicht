@@ -17,6 +17,12 @@
 #define LED_PIN_BASE 32
 
 // Button Pins
-#define PIN_BTN_1 14
-#define PIN_BTN_2 27
-#define PIN_BTN_3 26
+#define PIN_BTN_C 14
+#define PIN_BTN_B 27
+#define PIN_BTN_A 26
+
+// Button IDs
+#define BTN_A 3
+#define BTN_B 2
+#define BTN_C 1
+#define BTN_NONE 0

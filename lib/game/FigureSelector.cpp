@@ -15,7 +15,7 @@ short FigureSelector::select(LED_CONTROLLER* led, u_int8_t color,
 		"----------------------\nSEMI Waiting for "
 		"confirm...\n----------------------");
 
-	while (pressed_button != 3) {
+	while (pressed_button != BTN_A) {
 		u_int64_t current_time = millis();
 		if (current_time - last_update >= FIGURE_SELECT_TOGGLE_TIME) {
 			if (selected != prevSelected) {
@@ -36,15 +36,15 @@ short FigureSelector::select(LED_CONTROLLER* led, u_int8_t color,
 			last_update = current_time;
 		}
 
-		if (pressed_button == 1) {
-			pressed_button = 0;
+		if (pressed_button == BTN_C) {
+			pressed_button = BTN_NONE;
 			Serial.println("b1");
 			prevSelected = selected;
 			selected = selected + 1 > positions_length - 1 ? 0 : selected + 1;
 			Serial.printf("Selected: %d\n", selected);
 			delay(50);
-		} else if (pressed_button == 2) {
-			pressed_button = 0;
+		} else if (pressed_button == BTN_B) {
+			pressed_button = BTN_NONE;
 			Serial.println("b2");
 			prevSelected = selected;
 			selected = selected - 1 < 0 ? positions_length - 1 : selected - 1;
@@ -53,7 +53,7 @@ short FigureSelector::select(LED_CONTROLLER* led, u_int8_t color,
 		}
 	}
 
-	pressed_button = 0;
+	pressed_button = BTN_NONE;
 	Serial.printf("exiting selector: %d\n", selected);
 	return positions[selected];
 }
@@ -62,7 +62,7 @@ void FigureSelector::waitForConfirm() {
 	Serial.println(
 		"----------------------\nWaiting for "
 		"confirm...\n----------------------");
-	while (pressed_button != 3)
+	while (pressed_button != BTN_A)
 		;
-	pressed_button = 0;
+	pressed_button = BTN_NONE;
 }
