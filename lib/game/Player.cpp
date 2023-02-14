@@ -1,9 +1,5 @@
 #include "_game.hpp"
 
-// TODO: sechser im game wean teilweise verschluckt
-// TODO: figua am start muas bewegt wean won nu figuan in da base san
-// TODO (??): selector sometimes weird
-
 Player::Player(short color, Game* game, LED_CONTROLLER* led, Arduino_GFX* gfx) {
 	this->color = color;
 	this->led = led;
@@ -15,8 +11,6 @@ Player::Player(short color, Game* game, LED_CONTROLLER* led, Arduino_GFX* gfx) {
 		this->figures[i] = new Figure(color, this, led);
 		this->occupied_goal_positions[i] = false;
 	}
-
-	//(*led).setBase(4, color);
 
 	led->setBase(4, color);
 }
@@ -30,20 +24,23 @@ Player::~Player() {
 void Player::turn() {
 	u_int8_t dice_result = roll_dice();
 
-	// If no figure is on the field, try again, if not 6 (max 3 times (including
-	// first roll))
-	for (u_int8_t i = 0; i < 2 && !this->hasFiguresInGame() &&
-						 this->figures_in_base != 0 && dice_result != 6;
-		 i++) {
-		dice_result = roll_dice();
+	// If no figure is on the field, if not rolled 6 -> retry
+	if (dice_result != 6 && !this->hasFiguresInGame()) {
+		for (u_int8_t i = 0; i < 2 && dice_result != 6; i++) {
+			dice_result = roll_dice();
+		}
+
+		if (dice_result != 6) {
+			Serial.println("No figures in game and no 6 -> skipping turn");
+			return;
+		}
 	}
 
 	short field_at_entry_point = this->color * 10 + 1;
 	Figure* figure_at_entry_point = getFigureIfAtPosition(field_at_entry_point);
 
+	// If rolled 6 and a figure is in base -> move it to start
 	if (dice_result == 6 && figures_in_base > 0) {
-		// Move figure from base to start
-		Serial.println("Moving from base to start...");
 		if (figure_at_entry_point == nullptr) {
 			for (Figure* f : figures) {
 				if (f->isInBase()) {
@@ -52,75 +49,83 @@ void Player::turn() {
 					break;
 				}
 			}
-		}
-		// Remove figure from start blocking exit
-		else {
-			// TODO: Move figure in front of base (or the next one, if it would
-			// hit)
-		}
 
-		// Turn again if rolled 6
-		this->turn();
-		return;
+			this->turn();
+			return;
+		}
+	}
+
+	// Find if a particular has to be moved and which
+	// TODO: ATM the figure on the starting field has to be moved or the one
+	// blocking it from moving -> this is not how it should be done
+	short forced_figure_pos = field_at_entry_point;
+	while (getFigureIfAtPosition(forced_figure_pos + dice_result) != nullptr) {
+		forced_figure_pos = (forced_figure_pos + dice_result) % 40;
 	}
 
 	// Sort out figures that can't be moved
 	short* pos = this->getPositions();
 	short moveable_figures = 0, moveable_figures_pos[4];
-	Serial.println("Positions: ");
-	for (u_int8_t i = 0; i < 4; i++) {
-		Serial.printf("%d:\n", pos[i]);
-		if (pos[i] == 0) continue;
 
-		bool can = true;
-		for (u_int8_t j = 0; j < 4; j++) {
-			if (i == j) continue;
-			Serial.printf("Checking %d against %d", pos[i], pos[j]);
+	if (figure_at_entry_point != nullptr) {
+		moveable_figures = 1;
+		moveable_figures_pos[0] = forced_figure_pos;
+	} else {
+		Serial.println("Positions: ");
+		for (u_int8_t i = 0; i < 4; i++) {
+			Serial.printf("%d:\n", pos[i]);
+			if (pos[i] == 0) continue;
 
-			if (pos[i] < 0) {
-				if (pos[j] < 0) {
-					if (pos[i] - dice_result == pos[j] ||
-						pos[i] - dice_result < -4) {
+			bool can = true;
+			for (u_int8_t j = 0; j < 4; j++) {
+				if (i == j) continue;
+				Serial.printf("Checking %d against %d", pos[i], pos[j]);
+
+				if (pos[i] < 0) {
+					if (pos[j] < 0) {
+						if (pos[i] - dice_result == pos[j] ||
+							pos[i] - dice_result < -4) {
+							can = false;
+							Serial.println(" -> no");
+							break;
+						}
+					}
+					if (pos[i] - dice_result < -4) {
+						can = false;
+						Serial.println(" -> no");
+						break;
+					}
+					continue;
+				}
+
+				short new_pos = pos[i] + dice_result;
+				short field_before_goal =
+					this->color * 10 == 0 ? 40 : this->color * 10;
+				if (new_pos == pos[j]) {
+					can = false;
+					Serial.println(" -> no");
+					break;
+				} else if (pos[i] <= field_before_goal &&
+						   new_pos > field_before_goal) {
+					short remain = field_before_goal - new_pos;
+					if (remain < -4) {
 						can = false;
 						Serial.println(" -> no");
 						break;
 					}
 				}
-				if (pos[i] - dice_result < -4) {
-					can = false;
-					Serial.println(" -> no");
-					break;
-				}
-				continue;
 			}
+			Serial.println(" -> yes");
 
-			short new_pos = pos[i] + dice_result;
-			short field_before_goal =
-				this->color * 10 == 0 ? 40 : this->color * 10;
-			if (new_pos == pos[j]) {
-				can = false;
-				Serial.println(" -> no");
-				break;
-			} else if (pos[i] <= field_before_goal &&
-					   new_pos > field_before_goal) {
-				short remain = field_before_goal - new_pos;
-				if (remain < -4) {
-					can = false;
-					Serial.println(" -> no");
-					break;
-				}
+			if (can) {
+				moveable_figures_pos[moveable_figures++] = pos[i];
 			}
 		}
-		Serial.println(" -> yes");
-
-		if (can) {
-			moveable_figures_pos[moveable_figures++] = pos[i];
-		}
+		Serial.println();
 	}
-	Serial.println();
 
+	// Move figure
 	if (moveable_figures != 0) {
-		// Select figure
 		this->selected_figure = this->getFigureIfAtPosition(
 			FigureSelector::select(this->led, this->color, moveable_figures,
 								   moveable_figures_pos));
@@ -129,15 +134,10 @@ void Player::turn() {
 			exit(-1);
 		}
 
-		// Move figure
-		Serial.println("Moving1...");
 		this->move(this->selected_figure, dice_result);
-		Serial.println("Done Moving2.");
 	} else {
 		Serial.println("No figure can be moved.");
 	}
-
-	// delay(5000);
 
 	// Turn again if rolled 6
 	if (dice_result == 6) {
@@ -147,14 +147,12 @@ void Player::turn() {
 }
 
 bool Player::move(Figure* figure, short offset) {
-	Serial.println("Moving2...");
 	Serial.printf("Figure: %d, Offset: %d\n", figure, offset);
 	if (figure->getPosition() != 0) {
 		Serial.printf("Moving Figure %d by %d\n", figure, offset);
 		figure->move(offset);
 		return true;
 	}
-	Serial.println("Done Moving1.");
 	return false;
 }
 
@@ -162,7 +160,7 @@ bool Player::isGoalPosFree(short position) {
 	return !this->occupied_goal_positions[position];
 }
 
-short Player::hasFiguresInGame() {	// TODO: wtf does this do???
+short Player::hasFiguresInGame() {
 	u_int8_t c = 0;
 	for (u_int8_t i = 0; i < 4; i++) {
 		if (this->isGoalPosFree(i)) {
