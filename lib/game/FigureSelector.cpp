@@ -19,7 +19,6 @@ short FigureSelector::select(LED_CONTROLLER* led, u_int8_t color,
 		u_int64_t current_time = millis();
 		if (current_time - last_update >= FIGURE_SELECT_TOGGLE_TIME) {
 			if (selected != prevSelected) {
-				Serial.println("switching\n");
 				led->setFigure(positions[prevSelected], color);
 				led->clearFigure(positions[selected], color);
 				prevSelected = selected;
@@ -36,18 +35,18 @@ short FigureSelector::select(LED_CONTROLLER* led, u_int8_t color,
 			last_update = current_time;
 		}
 
-		if (pressed_button == BTN_C) {
+		if (pressed_button == BTN_B) {
+			Serial.println("pressed B");
 			pressed_button = BTN_NONE;
-			Serial.println("b1");
-			prevSelected = selected;
-			selected = selected + 1 > positions_length - 1 ? 0 : selected + 1;
-			Serial.printf("Selected: %d\n", selected);
-			delay(50);
-		} else if (pressed_button == BTN_B) {
-			pressed_button = BTN_NONE;
-			Serial.println("b2");
 			prevSelected = selected;
 			selected = selected - 1 < 0 ? positions_length - 1 : selected - 1;
+			Serial.printf("Selected: %d\n", selected);
+			delay(50);
+		} else if (pressed_button == BTN_C) {
+			Serial.println("pressed C");
+			pressed_button = BTN_NONE;
+			prevSelected = selected;
+			selected = selected + 1 > positions_length - 1 ? 0 : selected + 1;
 			Serial.printf("Selected: %d\n", selected);
 			delay(50);
 		}

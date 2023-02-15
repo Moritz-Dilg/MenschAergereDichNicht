@@ -22,10 +22,10 @@
 #define PIN_BTN_A 26
 
 // Button IDs
-#define BTN_A 3
-#define BTN_B 2
-#define BTN_C 1
 #define BTN_NONE 0
+#define BTN_A 1
+#define BTN_B 2
+#define BTN_C 3
 
 // TFT
 #define GFX_BL 22
