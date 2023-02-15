@@ -26,3 +26,13 @@
 #define BTN_B 2
 #define BTN_C 1
 #define BTN_NONE 0
+
+// TFT
+#define GFX_BL 22
+#define GFX_CS 5
+#define GFX_DC 19
+#define GFX_RST 21
+#define GFX_SCK 18
+#define GFX_MOSI 23
+#define GFX_MISO GFX_NOT_DEFINED
+#define GFX_BGR false
