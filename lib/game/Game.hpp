@@ -1,8 +1,7 @@
-#include <Arduino_GFX_Library.h>
 
 class Game {
    public:
-	Game(Arduino_GFX* gfx);
+	Game(TFT_Display* tft);
 	~Game();
 
 	/**
@@ -32,6 +31,6 @@ class Game {
    private:
 	Player* players[4];
 	LED_CONTROLLER* led;
-	Arduino_GFX* gfx;
+	TFT_Display* tft;
 	short currentPlayer;
 };

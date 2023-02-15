@@ -11,7 +11,7 @@ class Player {
 	 * @param color The color of the player
 	 * @param led The LED_CONTROLLER instance
 	 */
-	Player(short color, Game* game, LED_CONTROLLER* led, Arduino_GFX* gfx);
+	Player(short color, Game* game, LED_CONTROLLER* led, TFT_Display* tft);
 	~Player();
 
 	/**
@@ -102,7 +102,7 @@ class Player {
 	Figure* figures[4];
 	LED_CONTROLLER* led;
 	Game* game;
-	Arduino_GFX* gfx;
+	TFT_Display* tft;
 	short figures_in_base;
 	bool occupied_goal_positions[4];
 	Figure* selected_figure;

@@ -1,9 +1,9 @@
 #include "_game.hpp"
 
-Player::Player(short color, Game* game, LED_CONTROLLER* led, Arduino_GFX* gfx) {
+Player::Player(short color, Game* game, LED_CONTROLLER* led, TFT_Display* tft) {
 	this->color = color;
 	this->led = led;
-	this->gfx = gfx;
+	this->tft = tft;
 	this->figures_in_base = 4;
 	this->selected_figure = nullptr;
 	this->game = game;
@@ -195,16 +195,15 @@ short* Player::getPositions() {
 }
 
 u_int8_t Player::roll_dice() {
-	// TODO: maybe show animation on display
-
-	gfx->setCursor(10, 20);
-	gfx->println("Waiting...");
+	// TODO: show instructions on TFT
+	tft->setButton(BTN_A, "Wuerfeln");
 
 	Serial.println("Rolling dice...\nWaiting for btn3...");
 	FigureSelector::waitForConfirm();
 
 	u_int8_t dice_result = rand() % 6 + 1;
-	gfx->printf("%d gewuerfelt\n", dice_result);
+
+	tft->rollDice(dice_result);
 	Serial.printf("Done waiting...\nRolled %d\n", dice_result);
 	return dice_result;
 }
