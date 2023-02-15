@@ -4,6 +4,9 @@
 Arduino_DataBus *bus;
 Arduino_GFX *gfx;
 
+// TODO: clear Dice result on new player
+// TODO: Set button asignments in game
+
 TFT_Display::TFT_Display(short brightness) {
 	bus = new Arduino_ESP32SPI(GFX_DC, GFX_CS, GFX_SCK, GFX_MOSI, GFX_MISO);
 
@@ -13,6 +16,17 @@ TFT_Display::TFT_Display(short brightness) {
 	// TFT
 	gfx->begin();
 	gfx->fillScreen(BLACK);
+
+	gfx->setTextSize(2);
+	gfx->setCursor(20, 88);
+	gfx->print("A");
+	gfx->setCursor(74, 88);
+	gfx->print("B");
+	gfx->setCursor(128, 88);
+	gfx->print("C");
+	gfx->setTextSize(1);
+
+	drawLines();
 }
 
 void TFT_Display::showSettings() {
@@ -31,10 +45,29 @@ void TFT_Display::setCurrentPlayer(u_int8_t player) {
 	gfx->setTextSize(1);
 
 	gfx->print("Spieler ");
-	gfx->print("rot");
-	gfx->print(" am Zug!");
 
-	gfx->fillCircle(150, 10, 5, RED);
+	switch (player) {
+		case P_BLUE:
+			gfx->print("blau");
+			gfx->fillCircle(150, 10, 5, BLUE);
+			break;
+		case P_YELLOW:
+			gfx->print("gelb");
+			gfx->fillCircle(150, 10, 5, YELLOW);
+			break;
+		case P_GREEN:
+			gfx->print("gruen");
+			gfx->fillCircle(150, 10, 5, GREEN);
+			break;
+		case P_RED:
+			gfx->print("rot");
+			gfx->fillCircle(150, 10, 5, RED);
+			break;
+
+		default:
+			break;
+	}
+	gfx->print(" am Zug!");
 
 	drawLines();
 }
