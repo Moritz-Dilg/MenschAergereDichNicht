@@ -84,6 +84,7 @@ void Player::turn() {
 				if (i == j) continue;
 				Serial.printf("Checking %d against %d", pos[i], pos[j]);
 
+				// Movement in goal
 				if (pos[i] < 0) {
 					if (pos[j] < 0) {
 						if (pos[i] - dice_result == pos[j] ||
@@ -116,11 +117,16 @@ void Player::turn() {
 						Serial.println(" -> no");
 						break;
 					}
+					if (remain == pos[j]) {
+						can = false;
+						Serial.println(" -> no");
+						break;
+					}
 				}
 			}
-			Serial.println(" -> yes");
 
 			if (can) {
+				Serial.println(" -> yes");
 				moveable_figures_pos[moveable_figures++] = pos[i];
 			}
 		}

@@ -25,6 +25,7 @@ bool Figure::move(short offset) {
 		return false;
 	}
 
+	// Figure in goal
 	if (this->position < 0) {
 		if (this->position - offset < -4) {
 			return false;
@@ -51,6 +52,11 @@ bool Figure::move(short offset) {
 		new_position = -fields_in_goal;
 		(*this->led).setGoal(-new_position - 1, this->color);
 		(*this->led).removeFigureFromField(this->position - 1);
+		Serial.printf(
+			"====================================\nOld "
+			"Pos\n%d\n========================"
+			"============\n",
+			this->position - 1);
 		this->position = new_position;
 		return true;
 	}

@@ -91,25 +91,34 @@ void LED_CONTROLLER::setBase(u_int8_t n, u_int8_t color) {
 void LED_CONTROLLER::setGoal(u_int8_t n, u_int8_t color, int8_t from) {
 	if (!verifyNFigures(n)) return;
 
-	if (from != -1)
-		goalStrip.setPixelColor(color * 4 + from, goalStrip.Color(0, 0, 0));
-
 	switch (color) {
 		case P_BLUE:
+			if (from != -1)
+				goalStrip.setPixelColor(color * 4 + from,
+										goalStrip.Color(0, 0, 0));
 			goalStrip.setPixelColor(color * 4 + n, goalStrip.Color(0, 0, 255));
 			break;
 
 		case P_YELLOW:
+			if (from != -1)
+				goalStrip.setPixelColor(color * 4 + (3 - from),
+										goalStrip.Color(0, 0, 0));
 			goalStrip.setPixelColor(color * 4 + (3 - n),
 									goalStrip.Color(255, 100, 0));
 			break;
 
 		case P_GREEN:
+			if (from != -1)
+				goalStrip.setPixelColor(color * 4 + (3 - from),
+										goalStrip.Color(0, 0, 0));
 			goalStrip.setPixelColor(color * 4 + (3 - n),
 									goalStrip.Color(0, 255, 0));
 			break;
 
 		case P_RED:
+			if (from != -1)
+				goalStrip.setPixelColor(color * 4 + (3 - from),
+										goalStrip.Color(0, 0, 0));
 			goalStrip.setPixelColor(color * 4 + (3 - n),
 									goalStrip.Color(255, 0, 0));
 			break;
@@ -156,6 +165,8 @@ void LED_CONTROLLER::setFigureToStart(u_int8_t color) {
  * @param position Position of figure to remove starting at 0
  */
 void LED_CONTROLLER::removeFigureFromField(u_int8_t position) {
+	Serial.println("Remove figure from field");
+	Serial.println(position);
 	fieldStrip.setPixelColor(position, fieldStrip.Color(0, 0, 0));
 	fieldStrip.show();
 }
