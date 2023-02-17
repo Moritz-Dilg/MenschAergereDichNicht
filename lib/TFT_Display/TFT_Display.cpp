@@ -180,6 +180,8 @@ void TFT_Display::drawLines() {
 }
 
 TFT_Display::~TFT_Display() {
+	gfx->fillScreen(BLACK);
+
 	delete gfx;
 	delete bus;
 }

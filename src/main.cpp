@@ -36,7 +36,6 @@ void loop() {
 			break;
 
 		case BTN_C:
-			// TODO: set tft to black
 			delete buttons;
 			delete tft;
 			delete game;
