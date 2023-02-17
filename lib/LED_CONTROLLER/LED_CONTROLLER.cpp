@@ -90,7 +90,6 @@ void LED_CONTROLLER::setBase(u_int8_t n, u_int8_t color) {
  */
 void LED_CONTROLLER::setGoal(u_int8_t n, u_int8_t color, int8_t from) {
 	if (!verifyNFigures(n)) return;
-	clearSection(color, goalStrip);
 
 	if (from != -1)
 		goalStrip.setPixelColor(color * 4 + from, goalStrip.Color(0, 0, 0));
