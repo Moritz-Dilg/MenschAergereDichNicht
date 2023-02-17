@@ -6,13 +6,28 @@ void IRAM_ATTR PRESS_BTN_B() { FigureSelector::pressed_button = BTN_B; }
 
 void IRAM_ATTR PRESS_BTN_C() { FigureSelector::pressed_button = BTN_C; }
 
-Game::Game(TFT_Display* tft) {
+Game::Game(TFT_Display* tft, short player_count) {
+	if (player_count < 2 || player_count > 4) {
+		Serial.println("Invalid player count!");
+		exit(-1);
+		return;
+	}
+
 	led = new LED_CONTROLLER(LED_BRIGHTNESS);
 	led->begin();
+
+	this->player_count = player_count;
 	players[0] = new Player(P_BLUE, this, led, tft);
-	players[1] = new Player(P_YELLOW, this, led, tft);
-	players[2] = new Player(P_GREEN, this, led, tft);
-	players[3] = new Player(P_RED, this, led, tft);
+	if (player_count == 2) {
+		players[1] = new Player(P_GREEN, this, led, tft);
+	} else if (player_count == 3) {
+		players[1] = new Player(P_YELLOW, this, led, tft);
+		players[2] = new Player(P_GREEN, this, led, tft);
+	} else if (player_count == 4) {
+		players[1] = new Player(P_YELLOW, this, led, tft);
+		players[2] = new Player(P_GREEN, this, led, tft);
+		players[3] = new Player(P_RED, this, led, tft);
+	}
 	currentPlayer = 0;
 	this->tft = tft;
 
@@ -25,16 +40,20 @@ Game::Game(TFT_Display* tft) {
 }
 
 Game::~Game() {
-	for (Player* player : players) {
-		delete player;
+	for (short i = 0; i < player_count; i++) {
+		delete players[i];
 	}
 }
 
 void Game::turn() {
 	Serial.println("turn\n\n\n");
 
-	currentPlayer %= 4;
-	tft->setCurrentPlayer(currentPlayer);
+	currentPlayer = currentPlayer % player_count;
+	if (player_count == 2) {
+		tft->setCurrentPlayer(currentPlayer == P_BLUE ? P_BLUE : P_GREEN);
+	} else {
+		tft->setCurrentPlayer(currentPlayer);
+	}
 	switch (currentPlayer) {
 		case P_BLUE:
 			Serial.println("Blau ist dran!");
@@ -52,12 +71,13 @@ void Game::turn() {
 			break;
 	}
 
-	players[currentPlayer++]->turn();
+	players[currentPlayer]->turn();
+	currentPlayer++;
 }
 
 Figure* Game::getFigureIfAtPosition(const short position) {
-	for (Player* p : players) {
-		Figure* f = p->getFigureIfAtPosition(position);
+	for (short i = 0; i < player_count; i++) {
+		Figure* f = players[i]->getFigureIfAtPosition(position);
 		if (f != nullptr) {
 			return f;
 		}
@@ -66,8 +86,8 @@ Figure* Game::getFigureIfAtPosition(const short position) {
 }
 
 bool Game::toBaseIfHit(const short position) {
-	for (Player* p : players) {
-		if (p->toBaseIfHit(position)) return true;
+	for (short i = 0; i < player_count; i++) {
+		if (players[i]->toBaseIfHit(position)) return true;
 	}
 
 	return false;

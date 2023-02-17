@@ -1,7 +1,7 @@
 
 class Game {
    public:
-	Game(TFT_Display* tft);
+	Game(TFT_Display* tft, short player_count = 4);
 	~Game();
 
 	/**
@@ -33,4 +33,5 @@ class Game {
 	LED_CONTROLLER* led;
 	TFT_Display* tft;
 	short currentPlayer;
+	short player_count;
 };
