@@ -7,8 +7,11 @@ class Game {
 	/**
 	 * @brief Called for every turn. Handles player
 	 * selection, rolling dice, figure selection and movement.
+	 *
+	 * @return true The game is over
+	 * @return false The game is still running
 	 */
-	void turn();
+	bool turn();
 
 	/**
 	 * @brief Returns the figure at the given position

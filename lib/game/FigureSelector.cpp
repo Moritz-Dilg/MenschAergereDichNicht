@@ -2,6 +2,7 @@
 
 short FigureSelector::select(LED_CONTROLLER* led, u_int8_t color,
 							 short positions_length, short* positions) {
+	u_int8_t pressed_button = Buttons::getPressedButton();
 	Serial.printf("entering selector\n\tlen: %d\n\tpos: %d, %d, %d, %d\n",
 				  positions_length, positions[0], positions[1], positions[2],
 				  positions[3]);
@@ -50,6 +51,8 @@ short FigureSelector::select(LED_CONTROLLER* led, u_int8_t color,
 			Serial.printf("Selected: %d\n", selected);
 			delay(50);
 		}
+
+		pressed_button = Buttons::getPressedButton();
 	}
 
 	pressed_button = BTN_NONE;
@@ -61,7 +64,6 @@ void FigureSelector::waitForConfirm() {
 	Serial.println(
 		"----------------------\nWaiting for "
 		"confirm...\n----------------------");
-	while (pressed_button != BTN_A)
+	while (Buttons::getPressedButton() != BTN_A)
 		;
-	pressed_button = BTN_NONE;
 }
