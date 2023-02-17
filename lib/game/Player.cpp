@@ -22,6 +22,9 @@ Player::~Player() {
 }
 
 void Player::turn() {
+	tft->resetButtons();
+	tft->setButton(BTN_A, "Wuerfeln");
+
 	u_int8_t dice_result = roll_dice();
 
 	// If no figure is on the field, if not rolled 6 -> retry
@@ -125,6 +128,9 @@ void Player::turn() {
 	}
 
 	// Move figure
+	tft->setButton(BTN_A, "Figur bewegen");
+	tft->setButton(BTN_B, "Vorige Figur");
+	tft->setButton(BTN_C, "Naechste Figur");
 	if (moveable_figures != 0) {
 		this->selected_figure = this->getFigureIfAtPosition(
 			FigureSelector::select(this->led, this->color, moveable_figures,

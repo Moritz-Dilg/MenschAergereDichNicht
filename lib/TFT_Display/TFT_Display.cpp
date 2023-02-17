@@ -155,6 +155,21 @@ void TFT_Display::setButton(u_int8_t button, const char *text) {
 	drawLines();
 }
 
+void TFT_Display::resetButtons() {
+	gfx->fillRect(0, 80, 160, 48, BLACK);
+
+	gfx->setTextSize(2);
+	gfx->setCursor(20, 88);
+	gfx->print("A");
+	gfx->setCursor(74, 88);
+	gfx->print("B");
+	gfx->setCursor(128, 88);
+	gfx->print("C");
+	gfx->setTextSize(1);
+
+	drawLines();
+}
+
 void TFT_Display::drawLines() {
 	gfx->drawLine(0, 20, 160, 20, WHITE);
 	gfx->drawLine(0, 80, 160, 80, WHITE);

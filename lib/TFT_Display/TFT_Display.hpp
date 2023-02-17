@@ -12,6 +12,7 @@ class TFT_Display {
 	void rollDice(u_int8_t result);
 	void setNextInstruction(const char* instruction);
 	void setButton(u_int8_t button, const char* text);
+	void resetButtons();
 
    private:
 	void drawLines();
