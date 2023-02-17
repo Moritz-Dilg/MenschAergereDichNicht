@@ -9,7 +9,7 @@ short FigureSelector::select(LED_CONTROLLER* led, u_int8_t color,
 	u_int8_t selected = 0;
 	u_int8_t prevSelected = 0;
 	u_int64_t last_update = 0;
-	bool toggle = false;
+	bool toggle = true;
 
 	Serial.println(
 		"----------------------\nSEMI Waiting for "
