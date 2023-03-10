@@ -52,16 +52,16 @@ void TFT_Display::setTextTop(const char *text) {
  * @param nLines The number of text lines
  */
 void TFT_Display::setTextCenterLeft(TextLine text[], u_int8_t nLines) {
-	gfx->fillRect(0, 21, 160 / 2, 38 + 5, BLACK);
+	gfx->fillRect(0, 21, 160 / 2, 60, BLACK);
 
 	u_int8_t sumY = 0;
 	for (int i = 0; i < nLines; i++) {
 		sumY += text[i].size * 8 + 5;
 	}
 
-	u_int8_t startY = 21 + (38 + 5 - sumY) / 2;
+	u_int8_t startY = 21 + (60 - sumY) / 2;
 
-	u_int8_t lastY = startY + 5;
+	u_int8_t lastY = startY;
 	for (u_int8_t i = 0; i < nLines; i++) {
 		lastY = printLine(text[i], 0, 160 / 2, lastY + 5);
 	}
@@ -76,16 +76,16 @@ void TFT_Display::setTextCenterLeft(TextLine text[], u_int8_t nLines) {
  * @param nLines The number of text lines
  */
 void TFT_Display::setTextCenterRight(TextLine text[], u_int8_t nLines) {
-	gfx->fillRect(160 / 2, 21, 160 / 2, 38 + 5, BLACK);
+	gfx->fillRect(160 / 2, 21, 160 / 2, 60, BLACK);
 
 	u_int8_t sumY = 0;
 	for (int i = 0; i < nLines; i++) {
 		sumY += text[i].size * 8 + 5;
 	}
 
-	u_int8_t startY = 21 + (38 + 5 - sumY) / 2;
+	u_int8_t startY = 21 + (60 - sumY) / 2;
 
-	u_int8_t lastY = startY + 5;
+	u_int8_t lastY = startY;
 	for (u_int8_t i = 0; i < nLines; i++) {
 		lastY = printLine(text[i], 160 / 2, 160, lastY + 5);
 	}
@@ -129,8 +129,6 @@ void TFT_Display::setCurrentPlayer(u_int8_t player) {
  * @param result Result of the dice roll to display
  */
 void TFT_Display::rollDice(u_int8_t result) {
-	gfx->fillRect(0, 21, 160 / 2, 38 + 5, BLACK);
-
 	char buffer[10];
 	itoa(result, buffer, 10);
 	TextLine text[] = {
@@ -140,6 +138,11 @@ void TFT_Display::rollDice(u_int8_t result) {
 
 	setTextCenterLeft(text, 2);
 
+	drawLines();
+}
+
+void TFT_Display::clearDice() {
+	gfx->fillRect(0, 21, 160 / 2, 60, BLACK);
 	drawLines();
 }
 

@@ -18,6 +18,7 @@ class TFT_Display {
 	void setTextCenterRight(TextLine text[], u_int8_t nLines);
 	void setCurrentPlayer(u_int8_t player);
 	void rollDice(u_int8_t result);
+	void clearDice();
 	void setNextInstruction(const char* instruction);
 	void setButton(u_int8_t button, const char* text);
 	void resetButtons();
