@@ -57,6 +57,7 @@ bool Game::turn() {
 		default:
 			break;
 	}
+	tft->clearDice();
 
 	return players[currentPlayer++]->turn();
 }
