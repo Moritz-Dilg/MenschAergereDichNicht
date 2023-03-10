@@ -15,6 +15,7 @@ class LED_CONTROLLER {
 	void moveFigure(u_int8_t i, u_int8_t n, u_int8_t color);
 	void setFigure(int8_t i, u_int8_t color);
 	void clearFigure(int8_t i, u_int8_t color);
+	void clearAll();
 
    private:
 	bool verifyNFigures(u_int8_t n) { return n >= 0 && n <= 4; }

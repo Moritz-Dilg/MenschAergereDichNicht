@@ -304,6 +304,17 @@ void LED_CONTROLLER::clearFigure(int8_t i, u_int8_t color) {
 	}
 }
 
+void LED_CONTROLLER::clearAll() {
+	baseStrip.clear();
+	baseStrip.show();
+
+	fieldStrip.clear();
+	fieldStrip.show();
+
+	goalStrip.clear();
+	goalStrip.show();
+}
+
 // Deallocate LED object
 LED_CONTROLLER::~LED_CONTROLLER() {
 	fieldStrip.~Adafruit_NeoPixel();
