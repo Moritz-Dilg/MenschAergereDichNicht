@@ -4,9 +4,6 @@
 Arduino_DataBus *bus;
 Arduino_GFX *gfx;
 
-// TODO: clear Dice result on new player
-// TODO: Set button asignments in game
-
 TFT_Display::TFT_Display(short brightness) {
 	bus = new Arduino_ESP32SPI(GFX_DC, GFX_CS, GFX_SCK, GFX_MOSI, GFX_MISO);
 
@@ -34,42 +31,96 @@ void TFT_Display::showSettings() {
 }
 
 /**
+ * @brief Set the text on the top of the TFT
+ *
+ * @param text Text to print on the top of the TFT
+ */
+void TFT_Display::setTextTop(const char *text) {
+	gfx->setCursor(5, 8);
+	gfx->fillRect(0, 0, 160, 20, BLACK);
+	gfx->setTextSize(1);
+
+	gfx->print(text);
+
+	drawLines();
+}
+
+/**
+ * @brief Print multiple lines of text in the center left area on the TFT
+ *
+ * @param text The TextLine to print containing the text and the size
+ * @param nLines The number of text lines
+ */
+void TFT_Display::setTextCenterLeft(TextLine text[], u_int8_t nLines) {
+	gfx->fillRect(0, 21, 160 / 2, 38 + 5, BLACK);
+
+	u_int8_t sumY = 0;
+	for (int i = 0; i < nLines; i++) {
+		sumY += text[i].size * 8 + 5;
+	}
+
+	u_int8_t startY = 21 + (38 + 5 - sumY) / 2;
+
+	u_int8_t lastY = startY + 5;
+	for (u_int8_t i = 0; i < nLines; i++) {
+		lastY = printLine(text[i], 0, 160 / 2, lastY + 5);
+	}
+
+	drawLines();
+}
+
+/**
+ * @brief Print multiple lines of text in the center right area on the TFT
+ *
+ * @param text The TextLine to print containing the text and the size
+ * @param nLines The number of text lines
+ */
+void TFT_Display::setTextCenterRight(TextLine text[], u_int8_t nLines) {
+	gfx->fillRect(160 / 2, 21, 160 / 2, 38 + 5, BLACK);
+
+	u_int8_t sumY = 0;
+	for (int i = 0; i < nLines; i++) {
+		sumY += text[i].size * 8 + 5;
+	}
+
+	u_int8_t startY = 21 + (38 + 5 - sumY) / 2;
+
+	u_int8_t lastY = startY + 5;
+	for (u_int8_t i = 0; i < nLines; i++) {
+		lastY = printLine(text[i], 160 / 2, 160, lastY + 5);
+	}
+
+	drawLines();
+}
+
+/**
  * @brief Show which player is currently playing on the TFT
  *
  * @param player Player (Color); use the defines P_BLUE, P_YELLOW, P_GREEN,
  * P_RED
  */
 void TFT_Display::setCurrentPlayer(u_int8_t player) {
-	gfx->setCursor(5, 8);
-	gfx->fillRect(0, 0, 160, 20, BLACK);
-	gfx->setTextSize(1);
-
-	gfx->print("Spieler ");
-
 	switch (player) {
 		case P_BLUE:
-			gfx->print("blau");
+			setTextTop("Spieler blau am Zug!");
 			gfx->fillCircle(150, 10, 5, BLUE);
 			break;
 		case P_YELLOW:
-			gfx->print("gelb");
+			setTextTop("Spieler gelb am Zug!");
 			gfx->fillCircle(150, 10, 5, YELLOW);
 			break;
 		case P_GREEN:
-			gfx->print("gruen");
+			setTextTop("Spieler gruen am Zug!");
 			gfx->fillCircle(150, 10, 5, GREEN);
 			break;
 		case P_RED:
-			gfx->print("rot");
+			setTextTop("Spieler rot am Zug!");
 			gfx->fillCircle(150, 10, 5, RED);
 			break;
 
 		default:
 			break;
 	}
-	gfx->print(" am Zug!");
-
-	drawLines();
 }
 
 /**
@@ -80,13 +131,14 @@ void TFT_Display::setCurrentPlayer(u_int8_t player) {
 void TFT_Display::rollDice(u_int8_t result) {
 	gfx->fillRect(0, 21, 160 / 2, 38 + 5, BLACK);
 
-	gfx->setCursor(32, 35);
-	gfx->setTextSize(3);
-	gfx->print(result);
+	char buffer[10];
+	itoa(result, buffer, 10);
+	TextLine text[] = {
+		{buffer, 3},
+		{"gewuerfelt", 1},
+	};
 
-	gfx->setCursor(10, 64);
-	gfx->setTextSize(1);
-	gfx->print("gewuerfelt");
+	setTextCenterLeft(text, 2);
 
 	drawLines();
 }
@@ -98,11 +150,7 @@ void TFT_Display::rollDice(u_int8_t result) {
  */
 void TFT_Display::setNextInstruction(const char *instruction) {
 	// TODO: add linebreaks
-	gfx->fillRect(160 / 2, 21, 160 / 2, 38 + 5, BLACK);
-
-	gfx->setCursor(160 / 2 + 10, 30);
-	gfx->setTextSize(1);
-	gfx->print(instruction);
+	setTextCenterRight(new TextLine({instruction, 1}), 1);
 
 	drawLines();
 }
@@ -153,6 +201,30 @@ void TFT_Display::setButton(u_int8_t button, const char *text) {
 	}
 
 	drawLines();
+}
+
+/**
+ * @brief Print a line of text in the center of the area specified on the TFT
+ *
+ * @param line The TextLine to print containing the text and the size
+ * @param startX The left border of the text-area
+ * @param startY The top border of the text-area
+ * @param stopX The right border of the text-area
+ * @param stopY The bottom border of the text-area
+ * @return u_int8_t The y-coordinate of the bottom of the text
+ */
+u_int8_t TFT_Display::printLine(TextLine line, u_int8_t startX, u_int8_t stopX,
+								u_int8_t y) {
+	u_int8_t length = strlen(line.text);
+	u_int8_t lengthPX = length * line.size * 6;
+
+	u_int8_t x = startX + (stopX - startX - lengthPX) / 2;
+
+	gfx->setCursor(x, y);
+	gfx->setTextSize(line.size);
+	gfx->print(line.text);
+
+	return y + line.size * 8;
 }
 
 void TFT_Display::resetButtons() {
