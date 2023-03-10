@@ -38,7 +38,6 @@ void loop() {
 			// TODO: Print some useful things to display
 			delay(2);
 
-			// TODO: turn off all leds
 			delete game;
 			break;
 
@@ -50,8 +49,11 @@ void loop() {
 			delete buttons;
 			delete tft;
 			delete game;
-			while (1)
-				;
+
+			esp_sleep_enable_ext1_wakeup(WAKEUP_BITMASK,
+										 ESP_EXT1_WAKEUP_ANY_HIGH);
+			esp_deep_sleep_start();
+
 			break;
 
 		default:
