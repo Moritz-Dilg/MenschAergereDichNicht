@@ -36,3 +36,6 @@
 #define GFX_MOSI 23
 #define GFX_MISO GFX_NOT_DEFINED
 #define GFX_BGR false
+
+// Deep Sleep
+#define WAKEUP_BITMASK 0xC004000  // 2^14 + 2^26 + 2^27

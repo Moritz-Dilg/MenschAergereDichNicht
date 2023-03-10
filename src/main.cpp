@@ -13,6 +13,8 @@ void setup(void) {
 	Serial.println("main");
 
 	buttons = new Buttons();
+
+	Serial.println(WAKEUP_BITMASK);
 }
 
 void loop() {
@@ -50,8 +52,11 @@ void loop() {
 			delete buttons;
 			delete tft;
 			delete game;
-			while (1)
-				;
+
+			esp_sleep_enable_ext1_wakeup(WAKEUP_BITMASK,
+										 ESP_EXT1_WAKEUP_ANY_HIGH);
+			esp_deep_sleep_start();
+
 			break;
 
 		default:
