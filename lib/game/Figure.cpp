@@ -31,6 +31,9 @@ bool Figure::move(short offset) {
 			return false;
 		}
 
+		this->player->occupied_goal_positions[-this->position - 1] = false;
+		this->player->occupied_goal_positions[(-this->position - 1) + offset] =
+			true;
 		this->led->setGoal((-this->position - 1) + offset, this->color,
 						   -this->position - 1);
 		this->position -= offset;
@@ -50,6 +53,7 @@ bool Figure::move(short offset) {
 		}
 
 		new_position = -fields_in_goal;
+		this->player->occupied_goal_positions[-new_position - 1] = true;
 		(*this->led).setGoal(-new_position - 1, this->color);
 		(*this->led).removeFigureFromField(this->position - 1);
 		Serial.printf(

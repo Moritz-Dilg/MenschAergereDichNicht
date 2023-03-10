@@ -13,7 +13,6 @@ void setup(void) {
 	Serial.println("main");
 
 	buttons = new Buttons();
-	game = new Game(tft);
 }
 
 void loop() {
@@ -27,8 +26,20 @@ void loop() {
 		;
 	switch (button) {
 		case BTN_A:
+			game = new Game(tft);
+
 			while (!game->turn())
 				;
+
+			Serial.println(
+				"--------------------------------\nGame "
+				"ended\n--------------------------------");
+
+			// TODO: Print some useful things to display
+			delay(2);
+
+			// TODO: turn off all leds
+			delete game;
 			break;
 
 		case BTN_B:

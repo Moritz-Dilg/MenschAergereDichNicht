@@ -5,6 +5,8 @@ class Figure;
 
 class Player {
    public:
+	bool occupied_goal_positions[4];
+
 	/**
 	 * @brief Construct a new Player object
 	 *
@@ -18,7 +20,7 @@ class Player {
 	 * @brief Called for every turn. Handles figure selection, rolling dice and
 	 * movement.
 	 */
-	void turn();
+	bool turn();
 
 	/**
 	 * @brief Checks whether a given goal position is empty
@@ -104,7 +106,6 @@ class Player {
 	Game* game;
 	TFT_Display* tft;
 	short figures_in_base;
-	bool occupied_goal_positions[4];
 	Figure* selected_figure;
 	short color;
 

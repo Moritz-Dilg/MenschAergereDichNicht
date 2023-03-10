@@ -21,7 +21,7 @@ Player::~Player() {
 	}
 }
 
-void Player::turn() {
+bool Player::turn() {
 	tft->resetButtons();
 	tft->setButton(BTN_A, "Wuerfeln");
 
@@ -35,7 +35,7 @@ void Player::turn() {
 
 		if (dice_result != 6) {
 			Serial.println("No figures in game and no 6 -> skipping turn");
-			return;
+			return false;
 		}
 	}
 
@@ -53,8 +53,7 @@ void Player::turn() {
 				}
 			}
 
-			this->turn();
-			return;
+			return this->turn();
 		}
 	}
 
@@ -143,7 +142,7 @@ void Player::turn() {
 								   moveable_figures_pos));
 		if (this->selected_figure == nullptr) {
 			Serial.println("Selected figure is null.\nExiting...\n");
-			exit(-1);
+			exit(-1);  // TODO: remove this
 		}
 
 		this->move(this->selected_figure, dice_result);
@@ -154,8 +153,10 @@ void Player::turn() {
 	// Turn again if rolled 6
 	if (dice_result == 6) {
 		Serial.println("Turn again (rolled 6)...");
-		this->turn();
+		return this->turn();
 	}
+	return hasAllFiguresInGoal();
+	// return getFiguresInBase() + hasFiguresInGame() == 3;
 }
 
 bool Player::move(Figure* figure, short offset) {

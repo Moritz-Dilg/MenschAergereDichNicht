@@ -58,11 +58,7 @@ bool Game::turn() {
 			break;
 	}
 
-	players[currentPlayer]->turn();
-	currentPlayer++;
-
-	// TODO: return true if game is over
-	return false;
+	return players[currentPlayer++]->turn();
 }
 
 Figure* Game::getFigureIfAtPosition(const short position) {
