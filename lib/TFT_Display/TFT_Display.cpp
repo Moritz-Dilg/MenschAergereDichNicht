@@ -4,7 +4,7 @@
 Arduino_DataBus *bus;
 Arduino_GFX *gfx;
 
-TFT_Display::TFT_Display(short brightness) {
+TFT_Display::TFT_Display() {
 	bus = new Arduino_ESP32SPI(GFX_DC, GFX_CS, GFX_SCK, GFX_MOSI, GFX_MISO);
 
 	gfx = new Arduino_ST7735(bus, GFX_RST, 3, false, 128, 160, 0, 0, 0, 0,

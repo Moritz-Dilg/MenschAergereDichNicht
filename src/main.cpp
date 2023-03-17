@@ -7,7 +7,7 @@ TFT_Display *tft;
 Game *game;
 
 void setup(void) {
-	tft = new TFT_Display(LED_BRIGHTNESS);
+	tft = new TFT_Display();
 	srand(time(NULL));
 	Serial.begin(9600);
 	Serial.println("main");

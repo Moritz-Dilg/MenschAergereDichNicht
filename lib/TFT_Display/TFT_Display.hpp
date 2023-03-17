@@ -9,7 +9,7 @@ struct TextLine {
 
 class TFT_Display {
    public:
-	TFT_Display(short brightness);
+	TFT_Display();
 	~TFT_Display();
 
 	void showSettings();
