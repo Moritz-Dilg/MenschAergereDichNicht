@@ -26,8 +26,43 @@ TFT_Display::TFT_Display() {
 	drawLines();
 }
 
-void TFT_Display::showSettings() {
-	// TODO: implement
+void TFT_Display::showSettings(int brightness, int playerCount, int selected) {
+	gfx->fillRect(0, 0, 160, 81, BLACK);
+	setButton(BTN_A, "^");
+	setButton(BTN_B, "v");
+	setButton(BTN_C, "OK");
+
+	gfx->fillRect(3, 5 + 18 * selected, 150, 13, DARKGREY);
+
+	if (selected == 0)
+		gfx->setTextColor(BLACK);
+	else
+		gfx->setTextColor(WHITE);
+	gfx->setCursor(5, 8);
+	gfx->print("LED Helligkeit");
+	gfx->setCursor(134, 8);
+	gfx->print(brightness);
+	gfx->print("%");
+
+	gfx->drawLine(3, 20, 155, 20, DARKGREY);
+
+	if (selected == 1)
+		gfx->setTextColor(BLACK);
+	else
+		gfx->setTextColor(WHITE);
+	gfx->setCursor(5, 26);
+	gfx->print("Spieleranzahl");
+	gfx->setCursor(140, 26);
+	gfx->print(playerCount);
+
+	gfx->drawLine(3, 38, 155, 38, DARKGREY);
+
+	if (selected == 2)
+		gfx->setTextColor(BLACK);
+	else
+		gfx->setTextColor(WHITE);
+	gfx->setCursor(5, 44);
+	gfx->print("Speichern & Beenden");
 }
 
 /**
@@ -203,7 +238,7 @@ void TFT_Display::setButton(u_int8_t button, const char *text) {
 		gfx->print(textArray[i]);
 	}
 
-	drawLines();
+	drawButtonLines();
 }
 
 /**
@@ -247,8 +282,13 @@ void TFT_Display::resetButtons() {
 
 void TFT_Display::drawLines() {
 	gfx->drawLine(0, 20, 160, 20, WHITE);
-	gfx->drawLine(0, 80, 160, 80, WHITE);
 	gfx->drawLine(160 / 2, 20, 160 / 2, 80, WHITE);
+
+	drawButtonLines();
+}
+
+void TFT_Display::drawButtonLines() {
+	gfx->drawLine(0, 80, 160, 80, WHITE);
 
 	gfx->drawLine(52, 80, 52, 128, WHITE);
 	gfx->drawLine(105, 80, 105, 128, WHITE);

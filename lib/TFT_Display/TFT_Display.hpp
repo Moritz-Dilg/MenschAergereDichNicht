@@ -12,7 +12,7 @@ class TFT_Display {
 	TFT_Display();
 	~TFT_Display();
 
-	void showSettings();
+	void showSettings(int brightness, int playerCount, int selected);
 	void setTextTop(const char* text);
 	void setTextCenterLeft(TextLine text[], u_int8_t nLines);
 	void setTextCenterRight(TextLine text[], u_int8_t nLines);
@@ -25,6 +25,7 @@ class TFT_Display {
 
    private:
 	void drawLines();
+	void drawButtonLines();
 	u_int8_t printLine(TextLine line, u_int8_t startX, u_int8_t stopX,
 					   u_int8_t y);
 };
