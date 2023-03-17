@@ -22,6 +22,7 @@ Adafruit_NeoPixel baseStrip =
  */
 LED_CONTROLLER::LED_CONTROLLER(uint8_t brightness) {
 	this->brightness = brightness;
+	clearAll();
 }
 
 // Initialize LED

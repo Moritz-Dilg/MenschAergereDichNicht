@@ -4,10 +4,15 @@
 
 Buttons *buttons;
 TFT_Display *tft;
+LED_CONTROLLER *led;
 Game *game;
 
 void setup(void) {
 	tft = new TFT_Display();
+	led = new LED_CONTROLLER(LED_BRIGHTNESS);
+	led->begin();
+	led->clearAll();
+
 	srand(time(NULL));
 	Serial.begin(9600);
 	Serial.println("main");
@@ -26,7 +31,7 @@ void loop() {
 		;
 	switch (button) {
 		case BTN_A:
-			game = new Game(tft);
+			game = new Game(tft, led);
 
 			while (!game->turn())
 				;
@@ -46,9 +51,7 @@ void loop() {
 			break;
 
 		case BTN_C:
-			delete buttons;
-			delete tft;
-			delete game;
+			led->clearAll();
 
 			esp_sleep_enable_ext1_wakeup(WAKEUP_BITMASK,
 										 ESP_EXT1_WAKEUP_ANY_HIGH);

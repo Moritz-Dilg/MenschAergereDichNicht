@@ -1,14 +1,13 @@
 #include "_game.hpp"
 
-Game::Game(TFT_Display* tft, short player_count) {
+Game::Game(TFT_Display* tft, LED_CONTROLLER* led, short player_count) {
 	if (player_count < 2 || player_count > 4) {
 		Serial.println("Invalid player count!");
 		exit(-1);
 		return;
 	}
 
-	led = new LED_CONTROLLER(LED_BRIGHTNESS);
-	led->begin();
+	this->led = led;
 
 	this->player_count = player_count;
 	players[0] = new Player(P_BLUE, this, led, tft);
