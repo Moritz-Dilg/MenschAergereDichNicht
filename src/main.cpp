@@ -22,6 +22,7 @@ void setup(void) {
 }
 
 void loop() {
+	tft->setTextTop("Mensch aergere Dich nicht");
 	tft->setButton(BTN_A, "Spiel starten");
 	tft->setButton(BTN_B,
 				   "Settings");	 // TODO: Translate to german (max 8 chars)
@@ -74,8 +75,7 @@ void loop() {
 				}
 			}
 
-			// TODO: clear settings
-
+			tft->clearScreen();
 			break;
 
 		case BTN_C:

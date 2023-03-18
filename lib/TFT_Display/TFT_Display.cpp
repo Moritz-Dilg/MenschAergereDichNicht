@@ -285,7 +285,12 @@ void TFT_Display::resetButtons() {
 	gfx->print("C");
 	gfx->setTextSize(1);
 
-	drawLines();
+	drawButtonLines();
+}
+
+void TFT_Display::clearScreen() {
+	gfx->fillScreen(BLACK);
+	resetButtons();
 }
 
 void TFT_Display::drawLines() {

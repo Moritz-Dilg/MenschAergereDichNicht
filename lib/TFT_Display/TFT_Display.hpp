@@ -22,6 +22,7 @@ class TFT_Display {
 	void setNextInstruction(const char* instruction);
 	void setButton(u_int8_t button, const char* text);
 	void resetButtons();
+	void clearScreen();
 
    private:
 	void drawLines();
