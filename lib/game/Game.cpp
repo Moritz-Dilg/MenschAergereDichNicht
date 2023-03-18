@@ -8,6 +8,7 @@ Game::Game(TFT_Display* tft, LED_CONTROLLER* led, short player_count) {
 	}
 
 	this->led = led;
+	this->led->clearAll();
 
 	this->player_count = player_count;
 	players[0] = new Player(P_BLUE, this, led, tft);
