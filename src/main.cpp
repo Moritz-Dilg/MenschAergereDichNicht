@@ -5,6 +5,8 @@ TFT_Display *tft;
 LED_CONTROLLER *led;
 Game *game;
 
+void playGame();
+
 void setup(void) {
 	tft = new TFT_Display();
 	led = new LED_CONTROLLER(LED_BRIGHTNESS);
@@ -31,19 +33,7 @@ void loop() {
 		;
 	switch (button) {
 		case BTN_A:
-			game = new Game(tft, led, 3);
-
-			while (!game->turn())
-				;
-
-			Serial.println(
-				"--------------------------------\nGame "
-				"ended\n--------------------------------");
-
-			// TODO: Print some useful things to display
-			delay(2);
-
-			delete game;
+			playGame();
 			break;
 
 		case BTN_B:
@@ -87,4 +77,44 @@ void loop() {
 		default:
 			break;
 	}
+}
+
+void playGame() {
+	int8_t winner;
+	game = new Game(tft, led, 3);
+
+	while ((winner = game->turn()) == -1)
+		;
+
+	Serial.println(
+		"--------------------------------\nGame "
+		"ended\n--------------------------------");
+
+	Serial.println("Winner: " + String(winner));
+	tft->clearScreen();
+
+	char *winner_str;
+	switch (winner) {
+		case P_BLUE:
+			winner_str = "Blau";
+			break;
+		case P_YELLOW:
+			winner_str = "Gelb";
+			break;
+		case P_GREEN:
+			winner_str = "Gruen";
+			break;
+		case P_RED:
+			winner_str = "Rot";
+			break;
+		default:
+			break;
+	}
+	TextLine text[] = {
+		{winner_str, 1},
+		{"hat gewonnen", 1},
+	};
+	tft->setTextCenterLeft(text, 2);
+
+	delete game;
 }

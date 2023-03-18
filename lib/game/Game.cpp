@@ -31,10 +31,10 @@ Game::~Game() {
 	}
 }
 
-bool Game::turn() {
+int Game::turn() {
 	Serial.println("turn\n\n\n");
 
-	currentPlayer = currentPlayer % player_count;
+	currentPlayer %= player_count;
 	if (player_count == 2) {
 		tft->setCurrentPlayer(currentPlayer == P_BLUE ? P_BLUE : P_GREEN);
 	} else {
@@ -58,7 +58,12 @@ bool Game::turn() {
 	}
 	tft->clearDice();
 
-	return players[currentPlayer++]->turn();
+	if (players[currentPlayer]->turn()) {
+		Serial.println("GAME OVER!");
+		return currentPlayer;
+	}
+	currentPlayer++;
+	return -1;
 }
 
 Figure* Game::getFigureIfAtPosition(const short position) {

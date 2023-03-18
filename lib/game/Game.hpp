@@ -11,7 +11,7 @@ class Game {
 	 * @return true The game is over
 	 * @return false The game is still running
 	 */
-	bool turn();
+	int turn();
 
 	/**
 	 * @brief Returns the figure at the given position
