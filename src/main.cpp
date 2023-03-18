@@ -1,7 +1,4 @@
-/* #include <Adafruit_NeoPixel.h> */
-
 #include "_game.hpp"
-// TODO: Allow to select other figure if base is empty
 
 Buttons *buttons;
 TFT_Display *tft;
