@@ -205,6 +205,7 @@ void TFT_Display::setButton(u_int8_t button, const char *text) {
 
 	gfx->setTextSize(2);
 	gfx->setCursor(20 + offset, 88);
+	gfx->setTextColor(WHITE);
 
 	switch (button) {
 		case BTN_A:
