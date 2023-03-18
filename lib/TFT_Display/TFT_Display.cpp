@@ -13,6 +13,7 @@ TFT_Display::TFT_Display() {
 	// TFT
 	gfx->begin();
 	gfx->fillScreen(BLACK);
+	gfx->setTextColor(WHITE);
 
 	gfx->setTextSize(2);
 	gfx->setCursor(20, 88);
@@ -28,6 +29,7 @@ TFT_Display::TFT_Display() {
 
 void TFT_Display::showSettings(int brightness, int playerCount, int selected) {
 	gfx->fillRect(0, 0, 160, 81, BLACK);
+	gfx->setTextColor(WHITE);
 	setButton(BTN_A, "^");
 	setButton(BTN_B, "v");
 	setButton(BTN_C, "OK");
@@ -74,6 +76,7 @@ void TFT_Display::setTextTop(const char *text) {
 	gfx->setCursor(5, 8);
 	gfx->fillRect(0, 0, 160, 20, BLACK);
 	gfx->setTextSize(1);
+	gfx->setTextColor(WHITE);
 
 	gfx->print(text);
 
@@ -88,6 +91,7 @@ void TFT_Display::setTextTop(const char *text) {
  */
 void TFT_Display::setTextCenterLeft(TextLine text[], u_int8_t nLines) {
 	gfx->fillRect(0, 21, 160 / 2, 60, BLACK);
+	gfx->setTextColor(WHITE);
 
 	u_int8_t sumY = 0;
 	for (int i = 0; i < nLines; i++) {
@@ -112,6 +116,7 @@ void TFT_Display::setTextCenterLeft(TextLine text[], u_int8_t nLines) {
  */
 void TFT_Display::setTextCenterRight(TextLine text[], u_int8_t nLines) {
 	gfx->fillRect(160 / 2, 21, 160 / 2, 60, BLACK);
+	gfx->setTextColor(WHITE);
 
 	u_int8_t sumY = 0;
 	for (int i = 0; i < nLines; i++) {
@@ -205,6 +210,7 @@ void TFT_Display::setButton(u_int8_t button, const char *text) {
 
 	gfx->setTextSize(2);
 	gfx->setCursor(20 + offset, 88);
+	gfx->setTextColor(WHITE);
 
 	switch (button) {
 		case BTN_A:
@@ -259,6 +265,7 @@ u_int8_t TFT_Display::printLine(TextLine line, u_int8_t startX, u_int8_t stopX,
 	u_int8_t x = startX + (stopX - startX - lengthPX) / 2;
 
 	gfx->setCursor(x, y);
+	gfx->setTextColor(WHITE);
 	gfx->setTextSize(line.size);
 	gfx->print(line.text);
 
@@ -267,6 +274,7 @@ u_int8_t TFT_Display::printLine(TextLine line, u_int8_t startX, u_int8_t stopX,
 
 void TFT_Display::resetButtons() {
 	gfx->fillRect(0, 80, 160, 48, BLACK);
+	gfx->setTextColor(WHITE);
 
 	gfx->setTextSize(2);
 	gfx->setCursor(20, 88);
