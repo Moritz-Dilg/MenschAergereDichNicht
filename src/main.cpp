@@ -13,7 +13,6 @@ void setup(void) {
 	led->begin();
 	led->clearAll();
 
-	srand(time(NULL));
 	Serial.begin(9600);
 	Serial.println("main");
 
@@ -26,13 +25,14 @@ void loop() {
 	tft->setButton(BTN_B,
 				   "Settings");	 // TODO: Translate to german (max 8 chars)
 	tft->setButton(BTN_C, "Beenden");
-
+	// TODO: Only roll dice 3 times if cannot move any figure (goal!!)
 	u_int8_t button;
 	u_int8_t selected;
 	while ((button = Buttons::getPressedButton()) == BTN_NONE)
 		;
 	switch (button) {
 		case BTN_A:
+			srand(time(NULL));
 			playGame();
 			break;
 
@@ -81,7 +81,7 @@ void loop() {
 
 void playGame() {
 	int8_t winner;
-	game = new Game(tft, led, 3);
+	game = new Game(tft, led, 2);
 
 	while ((winner = game->turn()) == -1)
 		;

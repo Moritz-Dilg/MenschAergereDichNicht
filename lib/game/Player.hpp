@@ -100,6 +100,13 @@ class Player {
 	 */
 	bool gameToBaseIfHit(const short position);
 
+	/**
+	 * @brief Returns the color of the player
+	 *
+	 * @return The color of the player
+	 */
+	short getColor();
+
    private:
 	Figure* figures[4];
 	LED_CONTROLLER* led;

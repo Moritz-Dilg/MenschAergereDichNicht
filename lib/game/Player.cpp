@@ -239,3 +239,7 @@ short Player::getFiguresInBase() { return this->figures_in_base; }
 bool Player::gameToBaseIfHit(const short position) {
 	return this->game->toBaseIfHit(position);
 }
+
+short Player::getColor() {
+	return this->color;
+}

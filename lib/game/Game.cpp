@@ -61,7 +61,7 @@ int Game::turn() {
 
 	if (players[currentPlayer]->turn()) {
 		Serial.println("GAME OVER!");
-		return currentPlayer;
+		return players[currentPlayer]->getColor();
 	}
 	currentPlayer++;
 	return -1;
