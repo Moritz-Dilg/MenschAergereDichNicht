@@ -22,8 +22,7 @@ void setup(void) {
 void loop() {
 	tft->setTextTop("Mensch aergere Dich nicht");
 	tft->setButton(BTN_A, "Spiel starten");
-	tft->setButton(BTN_B,
-				   "Settings");	 // TODO: Translate to german (max 8 chars)
+	tft->setButton(BTN_B, "Settings");
 	tft->setButton(BTN_C, "Beenden");
 	// TODO: Only roll dice 3 times if cannot move any figure (goal!!)
 	u_int8_t button;
@@ -56,7 +55,6 @@ void loop() {
 					}
 				} else if (button == BTN_C) {
 					if (selected == 0) {
-						// TODO: change brightness
 						tft->setButton(BTN_A, "-");
 						tft->setButton(BTN_B, "+");
 						tft->setButton(BTN_C, "OK");
