@@ -9,7 +9,7 @@ void playGame();
 
 void setup(void) {
 	tft = new TFT_Display();
-	led = new LED_CONTROLLER(LED_BRIGHTNESS);
+	led = new LED_CONTROLLER(50);
 	led->begin();
 	led->clearAll();
 
