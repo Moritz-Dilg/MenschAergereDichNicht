@@ -28,37 +28,49 @@ void loop() {
 	// TODO: Only roll dice 3 times if cannot move any figure (goal!!)
 	u_int8_t button;
 	u_int8_t selected;
+	u_int8_t player_count = 4;
+	u_int8_t brightness = 50;
+
 	while ((button = Buttons::getPressedButton()) == BTN_NONE)
 		;
 	switch (button) {
 		case BTN_A:
 			srand(time(NULL));
-			playGame();
+			playGame(player_count);
 			break;
 
 		case BTN_B:
 			selected = 0;
-			tft->showSettings(10 / 2.5, 4, selected);
+			tft->showSettings(brightness / 2.5, player_count, selected);
 			while (true) {
 				u_int8_t button = Buttons::getPressedButton();
 				if (button == BTN_A) {
 					if (selected > 0) {
 						selected--;
-						tft->showSettings(10 / 2.5, 4, selected);
+						tft->showSettings(brightness / 2.5, player_count, selected);
 					}
 				} else if (button == BTN_B) {
 					if (selected < 2) {
 						selected++;
-						tft->showSettings(10 / 2.5, 4, selected);
+						tft->showSettings(brightness / 2.5, player_count, selected);
 					}
 				} else if (button == BTN_C) {
 					if (selected == 0) {
 						// TODO: change brightness
+						tft->setButton(BTN_A, "-");
+						tft->setButton(BTN_B, "+");
+						tft->setButton(BTN_C, "OK");
+						brightness = changeSetting(0, 100, 10, brightness / 2.5) * 2.5;
+						led->setBrightness(brightness);
 					} else if (selected == 1) {
-						// TODO: change player count
+						tft->setButton(BTN_A, "-");
+						tft->setButton(BTN_B, "+");
+						tft->setButton(BTN_C, "OK");
+						player_count = changeSetting(2, 4, 1, player_count);
 					} else if (selected == 2) {
 						break;
 					}
+					tft->showSettings(brightness / 2.5, player_count, selected);
 				}
 			}
 
@@ -79,9 +91,27 @@ void loop() {
 	}
 }
 
-void playGame() {
+int changeSetting(u_int8_t min, u_int8_t max, u_int8_t inc, u_int8_t defaultValue) {
+	u_int8_t value = defaultValue;
+	while (true) {
+		u_int8_t button = Buttons::getPressedButton();
+		if (button == BTN_A) {
+			if (value - inc >= min) {
+				value -= inc;
+			}
+		} else if (button == BTN_B) {
+			if (value + inc <= max) {
+				value += inc;
+			}
+		} else if (button == BTN_C) {
+			return value;
+		}
+	}
+}
+
+void playGame(u_int8_t player_count) {
 	int8_t winner;
-	game = new Game(tft, led, 2);
+	game = new Game(tft, led, player_count);
 
 	while ((winner = game->turn()) == -1)
 		;

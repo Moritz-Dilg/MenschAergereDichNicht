@@ -41,6 +41,18 @@ void LED_CONTROLLER::begin() {
 }
 
 /**
+ * @brief Set the brightness of the LEDs
+ *
+ * @param brightness Brightness of the LEDs: 1 - 255
+ */
+void LED_CONTROLLER::setBrightness(uint8_t brightness) {
+	this->brightness = brightness;
+	fieldStrip.setBrightness(this->brightness);
+	goalStrip.setBrightness(this->brightness);
+	baseStrip.setBrightness(this->brightness);
+}
+
+/**
  * @brief Set the base LEDs
  *
  * @param n Number of figures in the base
