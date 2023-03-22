@@ -58,8 +58,6 @@ bool Player::turn() {
 	}
 
 	// Find if a particular has to be moved and which
-	// TODO: ATM the figure on the starting field has to be moved or the one
-	// blocking it from moving -> this is not how it should be done
 	short forced_figure_pos = field_at_entry_point;
 	while (getFigureIfAtPosition(forced_figure_pos + dice_result) != nullptr) {
 		forced_figure_pos = (forced_figure_pos + dice_result) % 40;
@@ -69,7 +67,7 @@ bool Player::turn() {
 	short* pos = this->getPositions();
 	short moveable_figures = 0, moveable_figures_pos[4];
 
-	if (figure_at_entry_point != nullptr) {
+	if (figure_at_entry_point != nullptr && this->figures_in_base > 0) {
 		moveable_figures = 1;
 		moveable_figures_pos[0] = forced_figure_pos;
 	} else {
@@ -240,6 +238,4 @@ bool Player::gameToBaseIfHit(const short position) {
 	return this->game->toBaseIfHit(position);
 }
 
-short Player::getColor() {
-	return this->color;
-}
+short Player::getColor() { return this->color; }
