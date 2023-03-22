@@ -5,7 +5,9 @@ TFT_Display *tft;
 LED_CONTROLLER *led;
 Game *game;
 
-void playGame();
+void playGame(u_int8_t player_count);
+int changeSetting(u_int8_t min, u_int8_t max, u_int8_t inc,
+				  u_int8_t defaultValue);
 
 void setup(void) {
 	tft = new TFT_Display();
@@ -46,19 +48,22 @@ void loop() {
 				if (button == BTN_A) {
 					if (selected > 0) {
 						selected--;
-						tft->showSettings(brightness / 2.5, player_count, selected);
+						tft->showSettings(brightness / 2.5, player_count,
+										  selected);
 					}
 				} else if (button == BTN_B) {
 					if (selected < 2) {
 						selected++;
-						tft->showSettings(brightness / 2.5, player_count, selected);
+						tft->showSettings(brightness / 2.5, player_count,
+										  selected);
 					}
 				} else if (button == BTN_C) {
 					if (selected == 0) {
 						tft->setButton(BTN_A, "-");
 						tft->setButton(BTN_B, "+");
 						tft->setButton(BTN_C, "OK");
-						brightness = changeSetting(0, 100, 10, brightness / 2.5) * 2.5;
+						brightness =
+							changeSetting(0, 100, 10, brightness / 2.5) * 2.5;
 						led->setBrightness(brightness);
 					} else if (selected == 1) {
 						tft->setButton(BTN_A, "-");
@@ -89,7 +94,8 @@ void loop() {
 	}
 }
 
-int changeSetting(u_int8_t min, u_int8_t max, u_int8_t inc, u_int8_t defaultValue) {
+int changeSetting(u_int8_t min, u_int8_t max, u_int8_t inc,
+				  u_int8_t defaultValue) {
 	u_int8_t value = defaultValue;
 	while (true) {
 		u_int8_t button = Buttons::getPressedButton();
