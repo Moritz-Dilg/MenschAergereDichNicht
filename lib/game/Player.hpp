@@ -107,6 +107,18 @@ class Player {
 	 */
 	short getColor();
 
+	/**
+	 * @brief Returns all possible distances any figure can possibly move
+	 */
+	short* find_dists();
+
+	/**
+	 * @brief Checks if a given value is in an array
+	 *
+	 * @return Whether the given value is in the array
+	 */
+	bool contains(short values[6], short val);
+
    private:
 	Figure* figures[4];
 	LED_CONTROLLER* led;

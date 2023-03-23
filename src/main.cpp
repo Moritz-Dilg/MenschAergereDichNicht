@@ -26,7 +26,7 @@ void loop() {
 	tft->setButton(BTN_A, "Spiel starten");
 	tft->setButton(BTN_B, "Settings");
 	tft->setButton(BTN_C, "Beenden");
-	// TODO: Only roll dice 3 times if cannot move any figure (goal!!)
+
 	u_int8_t button;
 	u_int8_t selected;
 	u_int8_t player_count = 4;

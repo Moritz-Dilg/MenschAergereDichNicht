@@ -29,7 +29,8 @@ bool Player::turn() {
 
 	// If no figure is on the field, if not rolled 6 -> retry
 	if (dice_result != 6 && !this->hasFiguresInGame()) {
-		for (u_int8_t i = 0; i < 2 && dice_result != 6; i++) {
+		short* dists = find_dists();
+		for (u_int8_t i = 0; i < 2 && !contains(dists, dice_result); i++) {
 			dice_result = roll_dice();
 		}
 
@@ -239,3 +240,72 @@ bool Player::gameToBaseIfHit(const short position) {
 }
 
 short Player::getColor() { return this->color; }
+
+short* Player::find_dists() {
+	auto dists = new short[6]{
+		(hasFiguresInBase() > 0 ? (short)6 : (short)-1), -1, -1, -1, -1, -1};
+	short l = hasFiguresInBase() > 0 ? 1 : 0;
+
+	for (short k = 1; k <= 6 - (hasFiguresInBase() > 0 ? 1 : 0); k++) {
+		for (u_int8_t i = 0; i < 4; i++) {
+			auto posa = figures[i]->getPosition();
+			if (posa == 0) continue;
+
+			bool can = true;
+			for (u_int8_t j = 0; j < 4; j++) {
+				if (i == j) continue;
+				auto posb = figures[j]->getPosition();
+
+				// Movement in goal
+				if (posa < 0) {
+					if (posb < 0) {
+						if (posa - k == posb || posa - k < -4) {
+							can = false;
+							break;
+						}
+					}
+					if (posa - k < -4) {
+						can = false;
+						break;
+					}
+					continue;
+				}
+
+				short new_pos = posa + k;
+				short field_before_goal =
+					this->color * 10 == 0 ? 40 : this->color * 10;
+				if (new_pos == posb) {
+					can = false;
+					break;
+				} else if (posa <= field_before_goal &&
+						   new_pos > field_before_goal) {
+					short remain = field_before_goal - new_pos;
+					if (remain < -4) {
+						can = false;
+						break;
+					}
+					if (remain == posb) {
+						can = false;
+						break;
+					}
+				}
+			}
+
+			if (can) {
+				dists[l++] = k;
+				goto outer;
+			}
+		}
+	outer:
+		short a = 0;
+	}
+
+	return dists;
+}
+
+bool Player::contains(short values[6], short val) {
+	for (short i = 0; i < 6; i++) {
+		if (values[i] == val) return true;
+	}
+	return false;
+}
