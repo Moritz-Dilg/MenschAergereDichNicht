@@ -5,6 +5,9 @@ TFT_Display *tft;
 LED_CONTROLLER *led;
 Game *game;
 
+u_int8_t player_count = 4;
+u_int8_t brightness = 50;
+
 void playGame(u_int8_t player_count);
 int changeSetting(u_int8_t min, u_int8_t max, u_int8_t inc, u_int8_t defaultValue, std::function<void(u_int8_t)> updateTFT);
 
@@ -28,8 +31,6 @@ void loop() {
 
 	u_int8_t button;
 	u_int8_t selected;
-	u_int8_t player_count = 4;
-	u_int8_t brightness = 50;
 
 	while ((button = Buttons::getPressedButton()) == BTN_NONE)
 		;

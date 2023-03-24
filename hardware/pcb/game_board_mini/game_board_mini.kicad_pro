@@ -103,15 +103,15 @@
         "allow_blind_buried_vias": false,
         "allow_microvias": false,
         "max_error": 0.005,
-        "min_clearance": 0.0,
+        "min_clearance": 0.127,
         "min_copper_edge_clearance": 0.0,
-        "min_hole_clearance": 0.25,
+        "min_hole_clearance": 0.19999999999999998,
         "min_hole_to_hole": 0.25,
         "min_microvia_diameter": 0.19999999999999998,
         "min_microvia_drill": 0.09999999999999999,
         "min_silk_clearance": 0.0,
         "min_through_hole_diameter": 0.17779999999999999,
-        "min_track_width": 0.19999999999999998,
+        "min_track_width": 0.127,
         "min_via_annular_width": 0.049999999999999996,
         "min_via_diameter": 0.381,
         "solder_mask_clearance": 0.0,
@@ -487,6 +487,14 @@
     [
       "3a2ed4ad-cc31-4767-85e2-3f85c2a0acfb",
       "ESP-C3"
+    ],
+    [
+      "1f4ab4c8-d3c6-48cf-9c7f-5b15bed1300d",
+      "Power"
+    ],
+    [
+      "c37dcc27-7b89-4fca-aa0b-d4ca01c425d8",
+      "USB_C"
     ]
   ],
   "text_variables": {}
