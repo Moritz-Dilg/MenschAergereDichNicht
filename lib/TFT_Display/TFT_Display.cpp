@@ -30,9 +30,6 @@ TFT_Display::TFT_Display() {
 void TFT_Display::showSettings(int brightness, int playerCount, int selected) {
 	gfx->fillRect(0, 0, 160, 81, BLACK);
 	gfx->setTextColor(WHITE);
-	setButton(BTN_A, "^");
-	setButton(BTN_B, "v");
-	setButton(BTN_C, "OK");
 
 	gfx->fillRect(3, 5 + 18 * selected, 150, 13, DARKGREY);
 
@@ -65,6 +62,8 @@ void TFT_Display::showSettings(int brightness, int playerCount, int selected) {
 		gfx->setTextColor(WHITE);
 	gfx->setCursor(5, 44);
 	gfx->print("Speichern & Beenden");
+
+	drawButtonLines();
 }
 
 /**
