@@ -50,6 +50,10 @@ void LED_CONTROLLER::setBrightness(uint8_t brightness) {
 	fieldStrip.setBrightness(this->brightness);
 	goalStrip.setBrightness(this->brightness);
 	baseStrip.setBrightness(this->brightness);
+
+	fieldStrip.show();
+	goalStrip.show();
+	baseStrip.show();
 }
 
 /**

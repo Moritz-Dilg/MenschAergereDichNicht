@@ -59,9 +59,14 @@ void loop() {
 					}
 				} else if (button == BTN_C) {
 					if (selected == 0) {
-						auto updateTFT = [&](u_int8_t value) { return tft->showSettings(value, player_count, selected); };
-						brightness = changeSetting(0, 100, 10, brightness / 2.5, updateTFT) * 2.5;
+						led->setBase(4, P_BLUE);
+						led->setBase(4, P_YELLOW);
+						led->setBase(4, P_GREEN);
+						led->setBase(4, P_RED);
+						auto updateTFT = [&](u_int8_t value) { led->setBrightness(value * 2.5); return tft->showSettings(value, player_count, selected); };
+						brightness = changeSetting(1, 100, 10, brightness / 2.5, updateTFT) * 2.5;
 						led->setBrightness(brightness);
+						led->clearAll();
 					} else if (selected == 1) {
 						auto updateTFT = [&](u_int8_t value) { return tft->showSettings(brightness / 2.5, value, selected); };
 						player_count = changeSetting(2, 4, 1, player_count, updateTFT);
