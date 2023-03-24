@@ -21,24 +21,13 @@ Player::~Player() {
 	}
 }
 
-bool Player::turn() {
+bool Player::turn(short remaining_tries) {
+	if (remaining_tries == 0) return false;
+
 	tft->resetButtons();
 	tft->setButton(BTN_A, "Wuerfeln");
 
 	u_int8_t dice_result = roll_dice();
-
-	// If no figure is on the field, if not rolled 6 -> retry
-	if (dice_result != 6 && !this->hasFiguresInGame()) {
-		short* dists = find_dists();
-		for (u_int8_t i = 0; i < 2 && !contains(dists, dice_result); i++) {
-			dice_result = roll_dice();
-		}
-
-		if (dice_result != 6) {
-			Serial.println("No figures in game and no 6 -> skipping turn");
-			return false;
-		}
-	}
 
 	short field_at_entry_point = this->color * 10 + 1;
 	Figure* figure_at_entry_point = getFigureIfAtPosition(field_at_entry_point);
@@ -146,7 +135,7 @@ bool Player::turn() {
 
 		this->move(this->selected_figure, dice_result);
 	} else {
-		Serial.println("No figure can be moved.");
+		return this->turn(remaining_tries - 1);
 	}
 
 	// Turn again if rolled 6
@@ -155,7 +144,6 @@ bool Player::turn() {
 		return this->turn();
 	}
 	return hasAllFiguresInGoal();
-	// return getFiguresInBase() + hasFiguresInGame() == 3;
 }
 
 bool Player::move(Figure* figure, short offset) {
@@ -240,72 +228,3 @@ bool Player::gameToBaseIfHit(const short position) {
 }
 
 short Player::getColor() { return this->color; }
-
-short* Player::find_dists() {
-	auto dists = new short[6]{
-		(hasFiguresInBase() > 0 ? (short)6 : (short)-1), -1, -1, -1, -1, -1};
-	short l = hasFiguresInBase() > 0 ? 1 : 0;
-
-	for (short k = 1; k <= 6 - (hasFiguresInBase() > 0 ? 1 : 0); k++) {
-		for (u_int8_t i = 0; i < 4; i++) {
-			auto posa = figures[i]->getPosition();
-			if (posa == 0) continue;
-
-			bool can = true;
-			for (u_int8_t j = 0; j < 4; j++) {
-				if (i == j) continue;
-				auto posb = figures[j]->getPosition();
-
-				// Movement in goal
-				if (posa < 0) {
-					if (posb < 0) {
-						if (posa - k == posb || posa - k < -4) {
-							can = false;
-							break;
-						}
-					}
-					if (posa - k < -4) {
-						can = false;
-						break;
-					}
-					continue;
-				}
-
-				short new_pos = posa + k;
-				short field_before_goal =
-					this->color * 10 == 0 ? 40 : this->color * 10;
-				if (new_pos == posb) {
-					can = false;
-					break;
-				} else if (posa <= field_before_goal &&
-						   new_pos > field_before_goal) {
-					short remain = field_before_goal - new_pos;
-					if (remain < -4) {
-						can = false;
-						break;
-					}
-					if (remain == posb) {
-						can = false;
-						break;
-					}
-				}
-			}
-
-			if (can) {
-				dists[l++] = k;
-				goto outer;
-			}
-		}
-	outer:
-		short a = 0;
-	}
-
-	return dists;
-}
-
-bool Player::contains(short values[6], short val) {
-	for (short i = 0; i < 6; i++) {
-		if (values[i] == val) return true;
-	}
-	return false;
-}

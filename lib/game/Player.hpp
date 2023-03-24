@@ -20,7 +20,7 @@ class Player {
 	 * @brief Called for every turn. Handles figure selection, rolling dice and
 	 * movement.
 	 */
-	bool turn();
+	bool turn(short remaining_tries = 2);
 
 	/**
 	 * @brief Checks whether a given goal position is empty
@@ -106,18 +106,6 @@ class Player {
 	 * @return The color of the player
 	 */
 	short getColor();
-
-	/**
-	 * @brief Returns all possible distances any figure can possibly move
-	 */
-	short* find_dists();
-
-	/**
-	 * @brief Checks if a given value is in an array
-	 *
-	 * @return Whether the given value is in the array
-	 */
-	bool contains(short values[6], short val);
 
    private:
 	Figure* figures[4];
