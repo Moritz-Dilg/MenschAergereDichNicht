@@ -20,7 +20,7 @@ class Player {
 	 * @brief Called for every turn. Handles figure selection, rolling dice and
 	 * movement.
 	 */
-	bool turn(short remaining_tries = 2);
+	bool turn(short remaining_tries = 3);
 
 	/**
 	 * @brief Checks whether a given goal position is empty
