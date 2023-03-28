@@ -45,7 +45,7 @@ void LED_CONTROLLER::begin() {
  *
  * @param brightness Brightness of the LEDs: 1 - 255
  */
-void LED_CONTROLLER::setBrightness(uint8_t brightness) {
+void LED_CONTROLLER::setBrightness(u_int8_t brightness) {
 	this->brightness = brightness;
 	fieldStrip.setBrightness(this->brightness);
 	goalStrip.setBrightness(this->brightness);
@@ -112,14 +112,14 @@ void LED_CONTROLLER::setGoal(u_int8_t n, u_int8_t color, int8_t from) {
 		case P_BLUE:
 			if (from != -1)
 				goalStrip.setPixelColor(color * 4 + from,
-										goalStrip.Color(0, 0, 0));
+										goalStrip.Color(0, 0, 15));
 			goalStrip.setPixelColor(color * 4 + n, goalStrip.Color(0, 0, 255));
 			break;
 
 		case P_YELLOW:
 			if (from != -1)
 				goalStrip.setPixelColor(color * 4 + (3 - from),
-										goalStrip.Color(0, 0, 0));
+										goalStrip.Color(15, 10, 0));
 			goalStrip.setPixelColor(color * 4 + (3 - n),
 									goalStrip.Color(255, 100, 0));
 			break;
@@ -127,7 +127,7 @@ void LED_CONTROLLER::setGoal(u_int8_t n, u_int8_t color, int8_t from) {
 		case P_GREEN:
 			if (from != -1)
 				goalStrip.setPixelColor(color * 4 + (3 - from),
-										goalStrip.Color(0, 0, 0));
+										goalStrip.Color(0, 15, 0));
 			goalStrip.setPixelColor(color * 4 + (3 - n),
 									goalStrip.Color(0, 255, 0));
 			break;
@@ -135,7 +135,7 @@ void LED_CONTROLLER::setGoal(u_int8_t n, u_int8_t color, int8_t from) {
 		case P_RED:
 			if (from != -1)
 				goalStrip.setPixelColor(color * 4 + (3 - from),
-										goalStrip.Color(0, 0, 0));
+										goalStrip.Color(15, 0, 0));
 			goalStrip.setPixelColor(color * 4 + (3 - n),
 									goalStrip.Color(255, 0, 0));
 			break;
@@ -184,7 +184,7 @@ void LED_CONTROLLER::setFigureToStart(u_int8_t color) {
 void LED_CONTROLLER::removeFigureFromField(u_int8_t position) {
 	Serial.println("Remove figure from field");
 	Serial.println(position);
-	fieldStrip.setPixelColor(position, fieldStrip.Color(0, 0, 0));
+	fieldStrip.setPixelColor(position, fieldStrip.Color(20, 20, 15));
 	fieldStrip.show();
 }
 
@@ -196,7 +196,7 @@ void LED_CONTROLLER::removeFigureFromField(u_int8_t position) {
  * @param color Color to set, use the defines P_BLUE, P_YELLOW, P_GREEN, P_RED
  */
 void LED_CONTROLLER::moveFigure(u_int8_t i, u_int8_t n, u_int8_t color) {
-	fieldStrip.setPixelColor(i, fieldStrip.Color(0, 0, 0));
+	fieldStrip.setPixelColor(i, fieldStrip.Color(20, 20, 15));
 	u_int8_t new_position = i + n;
 	if (new_position > 39) new_position -= 40;
 	switch (color) {
@@ -293,22 +293,22 @@ void LED_CONTROLLER::clearFigure(int8_t i, u_int8_t color) {
 		switch (color) {
 			case P_BLUE:
 				goalStrip.setPixelColor(color * 4 - i - 1,
-										goalStrip.Color(0, 0, 0));
+										goalStrip.Color(0, 0, 15));
 				break;
 
 			case P_YELLOW:
 				goalStrip.setPixelColor(color * 4 + (4 + i),
-										goalStrip.Color(0, 0, 0));
+										goalStrip.Color(15, 10, 0));
 				break;
 
 			case P_GREEN:
 				goalStrip.setPixelColor(color * 4 + (4 + i),
-										goalStrip.Color(0, 0, 0));
+										goalStrip.Color(0, 15, 0));
 				break;
 
 			case P_RED:
 				goalStrip.setPixelColor(color * 4 + (4 + i),
-										goalStrip.Color(0, 0, 0));
+										goalStrip.Color(15, 0, 0));
 				break;
 
 			default:
@@ -316,7 +316,7 @@ void LED_CONTROLLER::clearFigure(int8_t i, u_int8_t color) {
 		}
 		goalStrip.show();
 	} else {
-		fieldStrip.setPixelColor(i - 1, fieldStrip.Color(0, 0, 0));
+		fieldStrip.setPixelColor(i - 1, fieldStrip.Color(20, 20, 15));
 		fieldStrip.show();
 	}
 }
@@ -329,6 +329,22 @@ void LED_CONTROLLER::clearAll() {
 	fieldStrip.show();
 
 	goalStrip.clear();
+	goalStrip.show();
+}
+
+void LED_CONTROLLER::initField() {
+	setBase(4, P_BLUE);
+	setBase(4, P_YELLOW);
+	setBase(4, P_GREEN);
+	setBase(4, P_RED);
+
+	fieldStrip.fill(fieldStrip.Color(20, 20, 15), 0, 40);
+	fieldStrip.show();
+
+	goalStrip.fill(goalStrip.Color(0, 0, 15), 0, 4);
+	goalStrip.fill(goalStrip.Color(20, 15, 0), 4, 4);
+	goalStrip.fill(goalStrip.Color(0, 15, 0), 8, 4);
+	goalStrip.fill(goalStrip.Color(15, 0, 0), 12, 4);
 	goalStrip.show();
 }
 

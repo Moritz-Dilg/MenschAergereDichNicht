@@ -17,12 +17,13 @@ class LED_CONTROLLER {
 	void setFigure(int8_t i, u_int8_t color);
 	void clearFigure(int8_t i, u_int8_t color);
 	void clearAll();
+	void initField();
 
    private:
 	bool verifyNFigures(u_int8_t n) { return n >= 0 && n <= 4; }
 	void clearSection(u_int8_t index, Adafruit_NeoPixel &strip) {
 		for (u_int8_t i = index * 4; i < index * 4 + 4; i++) {
-			strip.setPixelColor(i, strip.Color(0, 0, 0));
+			strip.setPixelColor(i, strip.Color(20, 20, 15));
 		}
 	}
 
