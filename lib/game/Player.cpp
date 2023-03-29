@@ -197,9 +197,16 @@ short* Player::getPositions() {
 u_int8_t Player::roll_dice() {
 	// TODO: show instructions on TFT
 	tft->setButton(BTN_A, "Wuerfeln");
+	tft->setButton(BTN_C, "Beenden");
 
 	Serial.println("Rolling dice...\nWaiting for btn3...");
 	FigureSelector::waitForConfirm();
+	u_int8_t button;
+	while ((button = Buttons::getPressedButton()) != BTN_A) {
+		if (button == BTN_C) {
+			exit(-1);
+		}
+	}
 
 	u_int8_t dice_result = rand() % 6 + 1;
 
