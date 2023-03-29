@@ -200,7 +200,7 @@ u_int8_t Player::roll_dice() {
 	tft->setButton(BTN_C, "Beenden");
 
 	Serial.println("Rolling dice...\nWaiting for btn3...");
-	FigureSelector::waitForConfirm();
+
 	u_int8_t button;
 	while ((button = Buttons::getPressedButton()) != BTN_A) {
 		if (button == BTN_C) {
