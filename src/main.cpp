@@ -42,21 +42,21 @@ void loop() {
 
 		case BTN_B:
 			selected = 0;
-			tft->setButton(BTN_A, "^");
-			tft->setButton(BTN_B, "v");
+			tft->setButton(BTN_A, "v");
+			tft->setButton(BTN_B, "^");
 			tft->setButton(BTN_C, "OK");
 			tft->showSettings(brightness / 2.5, player_count, selected);
 			while (true) {
 				u_int8_t button = Buttons::getPressedButton();
 				if (button == BTN_A) {
-					if (selected > 0) {
-						selected--;
+					if (selected < 2) {
+						selected++;
 						tft->showSettings(brightness / 2.5, player_count,
 										  selected);
 					}
 				} else if (button == BTN_B) {
-					if (selected < 2) {
-						selected++;
+					if (selected > 0) {
+						selected--;
 						tft->showSettings(brightness / 2.5, player_count,
 										  selected);
 					}
@@ -77,8 +77,8 @@ void loop() {
 				}
 
 				if (button != BTN_NONE) {
-					tft->setButton(BTN_A, "^");
-					tft->setButton(BTN_B, "v");
+					tft->setButton(BTN_A, "v");
+					tft->setButton(BTN_B, "^");
 					tft->setButton(BTN_C, "OK");
 				}
 			}
