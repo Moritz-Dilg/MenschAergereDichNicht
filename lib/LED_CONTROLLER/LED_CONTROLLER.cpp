@@ -332,11 +332,11 @@ void LED_CONTROLLER::clearAll() {
 	goalStrip.show();
 }
 
-void LED_CONTROLLER::initField() {
+void LED_CONTROLLER::initField(u_int8_t player_count) {
 	setBase(4, P_BLUE);
-	setBase(4, P_YELLOW);
 	setBase(4, P_GREEN);
-	setBase(4, P_RED);
+	if (player_count >= 3) setBase(4, P_YELLOW);
+	if (player_count >= 4) setBase(4, P_RED);
 
 	fieldStrip.fill(fieldStrip.Color(20, 20, 15), 0, 40);
 	fieldStrip.show();

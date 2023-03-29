@@ -17,7 +17,7 @@ class LED_CONTROLLER {
 	void setFigure(int8_t i, u_int8_t color);
 	void clearFigure(int8_t i, u_int8_t color);
 	void clearAll();
-	void initField();
+	void initField(u_int8_t player_count = 4);
 
    private:
 	bool verifyNFigures(u_int8_t n) { return n >= 0 && n <= 4; }
