@@ -119,7 +119,7 @@ void LED_CONTROLLER::setGoal(u_int8_t n, u_int8_t color, int8_t from) {
 		case P_YELLOW:
 			if (from != -1)
 				goalStrip.setPixelColor(color * 4 + (3 - from),
-										goalStrip.Color(15, 10, 0));
+										goalStrip.Color(20, 15, 0));
 			goalStrip.setPixelColor(color * 4 + (3 - n),
 									goalStrip.Color(255, 100, 0));
 			break;
@@ -298,7 +298,7 @@ void LED_CONTROLLER::clearFigure(int8_t i, u_int8_t color) {
 
 			case P_YELLOW:
 				goalStrip.setPixelColor(color * 4 + (4 + i),
-										goalStrip.Color(15, 10, 0));
+										goalStrip.Color(20, 15, 0));
 				break;
 
 			case P_GREEN:
