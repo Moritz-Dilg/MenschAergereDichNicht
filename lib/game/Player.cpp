@@ -137,7 +137,7 @@ bool Player::turn(short remaining_tries) {
 		}
 
 		this->move(this->selected_figure, dice_result);
-	} else if (this->hasFiguresInGame()) {
+	} else if (this->hasFiguresInBase() > 0) {
 		return this->turn(remaining_tries - 1);
 	}
 
