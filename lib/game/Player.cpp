@@ -22,10 +22,7 @@ Player::~Player() {
 }
 
 bool Player::turn(short remaining_tries) {
-	if (remaining_tries == 0) {
-		delay(1000);
-		return false;
-	}
+	if (remaining_tries == 0) return false;
 
 	tft->resetButtons();
 	tft->setButton(BTN_A, "Wuerfeln");

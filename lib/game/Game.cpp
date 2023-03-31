@@ -65,6 +65,9 @@ int Game::turn() {
 		return players[currentPlayer]->getColor();
 	}
 	currentPlayer++;
+
+	tft->resetButtons();
+	delay(1000);
 	return -1;
 }
 
