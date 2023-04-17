@@ -4,12 +4,15 @@ Buttons *buttons;
 TFT_Display *tft;
 LED_CONTROLLER *led;
 Game *game;
+Socket *sock;
 
 u_int8_t player_count = 4;
 u_int8_t brightness = 50;
 
 void playGame(u_int8_t player_count);
-int changeSetting(u_int8_t min, u_int8_t max, u_int8_t inc, u_int8_t defaultValue, std::function<void(u_int8_t)> updateTFT);
+int changeSetting(u_int8_t min, u_int8_t max, u_int8_t inc,
+				  u_int8_t defaultValue,
+				  std::function<void(u_int8_t)> updateTFT);
 
 void setup(void) {
 	tft = new TFT_Display();
@@ -20,6 +23,9 @@ void setup(void) {
 	Serial.begin(9600);
 	Serial.println("main");
 
+	sock =
+		new Socket("Liwest6C72", "A60A03A65");	// TODO: Remove hardcoded values
+	sock->connect();
 	buttons = new Buttons();
 }
 
@@ -34,73 +40,85 @@ void loop() {
 
 	while ((button = Buttons::getPressedButton()) == BTN_NONE)
 		;
-	switch (button) {
-		case BTN_A:
-			srand(time(NULL));
-			playGame(player_count);
-			break;
+	// switch (button) {
+	// 	case BTN_A:
+	// 		srand(time(NULL));
+	// 		playGame(player_count);
+	// 		break;
 
-		case BTN_B:
-			selected = 0;
-			tft->setButton(BTN_A, "v");
-			tft->setButton(BTN_B, "^");
-			tft->setButton(BTN_C, "OK");
-			tft->showSettings(brightness / 2.5, player_count, selected);
-			while (true) {
-				u_int8_t button = Buttons::getPressedButton();
-				if (button == BTN_A) {
-					if (selected < 2) {
-						selected++;
-						tft->showSettings(brightness / 2.5, player_count,
-										  selected);
-					}
-				} else if (button == BTN_B) {
-					if (selected > 0) {
-						selected--;
-						tft->showSettings(brightness / 2.5, player_count,
-										  selected);
-					}
-				} else if (button == BTN_C) {
-					if (selected == 0) {
-						led->initField();
-						auto updateTFT = [&](u_int8_t value) { led->setBrightness(value * 2.5); return tft->showSettings(value, player_count, selected); };
-						brightness = changeSetting(1, 100, 10, brightness / 2.5, updateTFT) * 2.5;
-						led->setBrightness(brightness);
-						led->clearAll();
-					} else if (selected == 1) {
-						auto updateTFT = [&](u_int8_t value) { return tft->showSettings(brightness / 2.5, value, selected); };
-						player_count = changeSetting(2, 4, 1, player_count, updateTFT);
-					} else if (selected == 2) {
-						break;
-					}
-					tft->showSettings(brightness / 2.5, player_count, selected);
-				}
+	// 	case BTN_B:
+	// 		selected = 0;
+	// 		tft->setButton(BTN_A, "v");
+	// 		tft->setButton(BTN_B, "^");
+	// 		tft->setButton(BTN_C, "OK");
+	// 		tft->showSettings(brightness / 2.5, player_count, selected);
+	// 		while (true) {
+	// 			u_int8_t button = Buttons::getPressedButton();
+	// 			if (button == BTN_A) {
+	// 				if (selected < 2) {
+	// 					selected++;
+	// 					tft->showSettings(brightness / 2.5, player_count,
+	// 									  selected);
+	// 				}
+	// 			} else if (button == BTN_B) {
+	// 				if (selected > 0) {
+	// 					selected--;
+	// 					tft->showSettings(brightness / 2.5, player_count,
+	// 									  selected);
+	// 				}
+	// 			} else if (button == BTN_C) {
+	// 				if (selected == 0) {
+	// 					led->initField();
+	// 					auto updateTFT = [&](u_int8_t value) {
+	// 						led->setBrightness(value * 2.5);
+	// 						return tft->showSettings(value, player_count,
+	// 												 selected);
+	// 					};
+	// 					brightness = changeSetting(1, 100, 10, brightness / 2.5,
+	// 											   updateTFT) *
+	// 								 2.5;
+	// 					led->setBrightness(brightness);
+	// 					led->clearAll();
+	// 				} else if (selected == 1) {
+	// 					auto updateTFT = [&](u_int8_t value) {
+	// 						return tft->showSettings(brightness / 2.5, value,
+	// 												 selected);
+	// 					};
+	// 					player_count =
+	// 						changeSetting(2, 4, 1, player_count, updateTFT);
+	// 				} else if (selected == 2) {
+	// 					break;
+	// 				}
+	// 				tft->showSettings(brightness / 2.5, player_count, selected);
+	// 			}
 
-				if (button != BTN_NONE) {
-					tft->setButton(BTN_A, "v");
-					tft->setButton(BTN_B, "^");
-					tft->setButton(BTN_C, "OK");
-				}
-			}
+	// 			if (button != BTN_NONE) {
+	// 				tft->setButton(BTN_A, "v");
+	// 				tft->setButton(BTN_B, "^");
+	// 				tft->setButton(BTN_C, "OK");
+	// 			}
+	// 		}
 
-			tft->clearScreen();
-			break;
+	// 		tft->clearScreen();
+	// 		break;
 
-		case BTN_C:
-			led->clearAll();
+	// 	case BTN_C:
+	// 		led->clearAll();
 
-			esp_sleep_enable_ext1_wakeup(WAKEUP_BITMASK,
-										 ESP_EXT1_WAKEUP_ANY_HIGH);
-			esp_deep_sleep_start();
+	// 		esp_sleep_enable_ext1_wakeup(WAKEUP_BITMASK,
+	// 									 ESP_EXT1_WAKEUP_ANY_HIGH);
+	// 		esp_deep_sleep_start();
 
-			break;
+	// 		break;
 
-		default:
-			break;
-	}
+	// 	default:
+	// 		break;
+	// }
 }
 
-int changeSetting(u_int8_t min, u_int8_t max, u_int8_t inc, u_int8_t defaultValue, std::function<void(u_int8_t)> updateTFT) {
+int changeSetting(u_int8_t min, u_int8_t max, u_int8_t inc,
+				  u_int8_t defaultValue,
+				  std::function<void(u_int8_t)> updateTFT) {
 	tft->setButton(BTN_A, "-");
 	tft->setButton(BTN_B, "+");
 	tft->setButton(BTN_C, "OK");
